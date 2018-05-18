@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
 
 class TaskAdapter extends ArrayAdapter<Task>{
-    private Context context;
-    private int layoutResourceId;
-    private ArrayList<Task> tasks;
+    Context context;
+    int layoutResourceId;
+    ArrayList<Task> tasks;
 
     TaskAdapter(Context context, int layoutResourceId, ArrayList<Task> tasks){
         super(context, layoutResourceId, tasks);
@@ -31,18 +31,11 @@ class TaskAdapter extends ArrayAdapter<Task>{
     }
 }
 
-class BacklogTaskAdapter extends ArrayAdapter<BacklogTask>{
-    private Context context;
-    private int layoutResourceId;
-    private ArrayList<BacklogTask> tasks;
+class BacklogTaskAdapter extends TaskAdapter{
 
-    BacklogTaskAdapter(Context context, int layoutResourceId, ArrayList<BacklogTask> tasks){
+    BacklogTaskAdapter(Context context, int layoutResourceId, ArrayList<Task> tasks){
         super(context, layoutResourceId, tasks);
-        this.context = context;
-        this.layoutResourceId = layoutResourceId;
-        this.tasks = tasks;
     }
-
 
     private class BacklogTaskHolder {
         TextView id;
@@ -72,25 +65,19 @@ class BacklogTaskAdapter extends ArrayAdapter<BacklogTask>{
             holder = (BacklogTaskHolder) row.getTag();
         }
 
-        BacklogTask backlogTask = tasks.get(position);
-        holder.id.setText(backlogTask.idCode);
-        holder.desc.setText(backlogTask.description);
-        holder.perc.setText(Double.toString(backlogTask.percentageDone));
+        Task Task = tasks.get(position);
+        holder.id.setText(Task.idCode);
+        holder.desc.setText(Task.description);
+        holder.perc.setText(Double.toString(Task.percentageDone));
 
         return row;
     }
 }
 
-class ActiveTaskAdapter extends ArrayAdapter<ActiveTask>{
-    private Context context;
-    private int layoutResourceId;
-    private ArrayList<ActiveTask> tasks;
+class ActiveTaskAdapter extends TaskAdapter{
 
-    ActiveTaskAdapter(Context context, int layoutResourceId, ArrayList<ActiveTask> tasks){
+    ActiveTaskAdapter(Context context, int layoutResourceId, ArrayList<Task> tasks){
         super(context, layoutResourceId, tasks);
-        this.context = context;
-        this.layoutResourceId = layoutResourceId;
-        this.tasks = tasks;
     }
 
     private class ActiveTaskHolder {
@@ -98,6 +85,8 @@ class ActiveTaskAdapter extends ArrayAdapter<ActiveTask>{
         TextView desc;
         TextView perc;
         Button deleteBtn;
+        Button moveToBackburnerBtn;
+        Button moveToBacklogBtn;
     }
 
     @Override
@@ -123,10 +112,10 @@ class ActiveTaskAdapter extends ArrayAdapter<ActiveTask>{
             holder = (ActiveTaskHolder) row.getTag();
         }
 
-        ActiveTask activeTask = tasks.get(position);
-        holder.id.setText(activeTask.idCode);
-        holder.desc.setText(activeTask.description);
-        holder.perc.setText(Double.toString(activeTask.percentageDone));
+        Task Task = tasks.get(position);
+        holder.id.setText(Task.idCode);
+        holder.desc.setText(Task.description);
+        holder.perc.setText(Double.toString(Task.percentageDone));
 
         //TODO
         holder.deleteBtn.setOnClickListener((View v) -> {

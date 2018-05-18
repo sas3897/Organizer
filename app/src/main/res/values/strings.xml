@@ -3,4 +3,5 @@
     <string name="agile_btn_name">Agile</string>
     <string name="backlog_btn_name">Backlog</string>
     <string name="active_btn_name">Active</string>
+    <string name="database_name">Task Database</string>
 </resources>
