@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.aechkae.organizer.Agile.AgileActivity;
+import com.aechkae.organizer.Timer.TimerActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,5 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchAgile(View v){
         startActivity(new Intent(this, AgileActivity.class));
+    }
+
+    public void launchTimer(View v){
+        startActivity(new Intent(this, TimerActivity.class));
     }
 }

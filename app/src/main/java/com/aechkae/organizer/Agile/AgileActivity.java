@@ -1,5 +1,6 @@
 package com.aechkae.organizer.Agile;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.aechkae.organizer.Agile.common.Task;
 import com.aechkae.organizer.R;
 
 import java.util.ArrayList;
@@ -15,8 +17,9 @@ import java.util.Arrays;
 
 public class AgileActivity extends AppCompatActivity {
 
-    Button active_btn;
-    Button backlog_btn;
+    Button  active_btn,
+            backlog_btn,
+            add_task_btn;
     ListView backlogList;
     ListView activeList;
     SQLiteDatabase taskDatabase;
@@ -31,16 +34,17 @@ public class AgileActivity extends AppCompatActivity {
         backlog_btn = findViewById(R.id.backlog_tab);
         backlogList = findViewById(R.id.backlog_list);
         activeList = findViewById(R.id.active_list);
+        add_task_btn = findViewById(R.id.add_new_task_btn);
 
         //Most of the time you just want to see your active tasks right from the start
         showActive(active_btn);
-        taskDatabase = openOrCreateDatabase(getResources().getString(R.string.database_name), MODE_PRIVATE, null);
     }
 
     public void showBacklog(View v){
         // Demarcate which tab is active
         active_btn.setBackgroundColor(0xFF3265AA);
         backlog_btn.setBackgroundColor(0xFFCCFFFF);
+        add_task_btn.setVisibility(View.VISIBLE);
         //TODO add a bevel depression to the backlog button
 
         //TODO Make this draw from a repository
@@ -67,6 +71,7 @@ public class AgileActivity extends AppCompatActivity {
         // Demarcate which tab is active
         backlog_btn.setBackgroundColor(0xFF3265AA);
         active_btn.setBackgroundColor(0xFFCCFFFF);
+        add_task_btn.setVisibility(View.INVISIBLE);
         //TODO add a bevel depression to the active button
 
 
@@ -82,6 +87,10 @@ public class AgileActivity extends AppCompatActivity {
         activeList.setAdapter(activeAdapter);
 
         //TODO Display the back-burner tasks
+    }
+
+    public void goToTaskCreationPage(View v){
+        startActivity(new Intent(this, AddTaskActivity.class));
     }
 
     public void completeTask(Task at){

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Agile.AddTaskActivity">
+
+    <EditText
+        android:id="@+id/id_code_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ID Code"/>
+
+    <EditText
+        android:id="@+id/desc_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        app:layout_constraintTop_toBottomOf="@id/id_code_edit"/>
+
+    <EditText
+        android:id="@+id/perc_done_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Percentage Done"
+        app:layout_constraintTop_toBottomOf="@id/desc_edit"/>
+
+    <Button
+        android:id="@+id/create_task_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:text="Add Task"
+        android:onClick="saveToDB"
+        />
+
+</android.support.constraint.ConstraintLayout>

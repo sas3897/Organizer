@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".Agile.AgileActivity"></activity>
+        <activity android:name=".Agile.AgileActivity" />
+        <activity android:name=".Timer.TimerActivity" />
+        <activity android:name=".Agile.AddTaskActivity"></activity>
     </application>
 
 </manifest>

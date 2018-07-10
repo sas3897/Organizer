@@ -9,12 +9,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aechkae.organizer.Agile.common.Task;
 import com.aechkae.organizer.R;
 
 import java.util.ArrayList;
 
 /**
- * ArrayAdapters for elements. Structure taken from http://ezzylearning.com/tutorial/customizing-android-listview-items-with-custom-arrayadapter
+ * ArrayAdapters for elements.
+ * Structure taken from http://ezzylearning.com/tutorial/customizing-android-listview-items-with-custom-arrayadapter
  */
 
 
