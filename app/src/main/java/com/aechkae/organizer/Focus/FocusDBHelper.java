@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.aechkae.organizer.Focus.common.CompletedTaskTable;
-import com.aechkae.organizer.Focus.common.UncompletedTasksTable;
+import com.aechkae.organizer.Focus.schemas.CompletedTaskTable;
+import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 
 public class FocusDBHelper extends SQLiteOpenHelper{
 

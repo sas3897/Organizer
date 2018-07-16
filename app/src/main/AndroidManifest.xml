@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".Focus.SettingsActivity" />
         <activity android:name=".Timer.TimerActivity" />
         <activity android:name=".Focus.AddTaskActivity"></activity>
     </application>

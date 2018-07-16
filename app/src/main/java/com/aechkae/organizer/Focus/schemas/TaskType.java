@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus.common;
+package com.aechkae.organizer.Focus.schemas;
 
 /** Holds these needed constants */
 public final class TaskType {

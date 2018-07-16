@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
-import com.aechkae.organizer.databinding.BacklogTaskItemBinding;
+import com.aechkae.organizer.databinding.ActiveTaskItemBinding;
 
 import static com.aechkae.organizer.Focus.schemas.Task.CUTOFF_LENGTH;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_CODE;
@@ -22,11 +22,11 @@ import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_PERC
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_TYPE;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.TABLE_NAME;
 
-public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.BacklogTaskViewHolder>{
+public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTaskRecyclerViewAdapter.ActiveTaskViewHolder>{
     private Context mContext;
     private Cursor mCursor;
 
-    BacklogTaskRecyclerViewAdapter(Context context, Cursor cursor){
+    ActiveTaskRecyclerViewAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }
@@ -37,59 +37,58 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
     }
 
     @Override
-    public void onBindViewHolder(BacklogTaskViewHolder holder, int position){
+    public void onBindViewHolder(ActiveTaskViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         holder.bindCursor(mCursor);
 
         //Remove task from DB
-        holder.backlogTaskBinding.backlogDeleteBtn.setOnClickListener((view) -> {
+        holder.activeTaskItemBinding.activeTaskDeleteBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             taskDatabase.delete(
-                    UncompletedTasksTable.TABLE_NAME,
+                    TABLE_NAME,
                     COL_CODE + "= ?",
-                    new String[]{holder.backlogTaskBinding.taskCode.getText().toString()});
+                    new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
         });
 
-        //Move to active
-        holder.backlogTaskBinding.backlogMvActiveBtn.setOnClickListener((view) -> {
+        //Move to backlog
+        holder.activeTaskItemBinding.activeMvBacklogBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(COL_TYPE, TaskType.ACTIVE);
+            values.put(COL_TYPE, TaskType.BACKLOG);
             taskDatabase.update(
                     TABLE_NAME,
                     values,
                     COL_CODE + "= ?",
-                    new String[]{holder.backlogTaskBinding.taskCode.getText().toString()});
+                    new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
         });
     }
 
     @Override
-    public BacklogTaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ActiveTaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.backlog_task_item, parent, false);
-        return new BacklogTaskViewHolder(view);
+                .inflate(R.layout.active_task_item, parent, false);
+        return new ActiveTaskViewHolder(view);
     }
 
-    class BacklogTaskViewHolder extends RecyclerView.ViewHolder{
-        BacklogTaskItemBinding backlogTaskBinding;
-
-        BacklogTaskViewHolder(View itemView){
+    class ActiveTaskViewHolder extends RecyclerView.ViewHolder{
+        ActiveTaskItemBinding activeTaskItemBinding;
+        ActiveTaskViewHolder(View itemView){
             super(itemView);
-            backlogTaskBinding = DataBindingUtil.bind(itemView);
+            activeTaskItemBinding = DataBindingUtil.bind(itemView);
         }
-
         void bindCursor(Cursor cursor){
-            backlogTaskBinding.taskCode.setText(cursor.getString(
+            activeTaskItemBinding.activeTaskCode.setText(cursor.getString(
                     cursor.getColumnIndexOrThrow(COL_CODE)));
+
             String desc = cursor.getString(
                     cursor.getColumnIndexOrThrow(COL_DESC));
             if(desc.length() > CUTOFF_LENGTH){
-                backlogTaskBinding.taskDesc.setText(desc.substring(0, CUTOFF_LENGTH));
+                activeTaskItemBinding.activeTaskDesc.setText(desc.substring(0, CUTOFF_LENGTH));
             }
             else {
-                backlogTaskBinding.taskDesc.setText(desc);
+                activeTaskItemBinding.activeTaskDesc.setText(desc);
             }
-            backlogTaskBinding.taskPercDone.setText("" + cursor.getDouble(
+            activeTaskItemBinding.activeTaskPercDone.setText("" + cursor.getDouble(
                     cursor.getColumnIndexOrThrow(COL_PERC)));
         }
     }

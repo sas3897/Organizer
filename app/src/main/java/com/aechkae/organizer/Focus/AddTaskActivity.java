@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.aechkae.organizer.Focus.common.TaskType;
+import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.R;
 
-import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_CODE;
-import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_DESC;
-import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_PERC;
-import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_TYPE;
-import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.TABLE_NAME;
+import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_CODE;
+import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_DESC;
+import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_PERC;
+import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_TYPE;
+import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.TABLE_NAME;
 
 public class AddTaskActivity extends AppCompatActivity {
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:id="@+id/active_task_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp">
+        <LinearLayout
+            android:id="@+id/active_task_info_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/active_task_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Test_id"/>
+            <TextView
+                android:id="@+id/active_task_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/task_code"
+                tools:text="Test_desc"/>
+            <TextView
+                android:id="@+id/active_task_perc_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/task_desc"
+                tools:text="20%"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/active_task_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/active_task_info_linear_layout"
+
+            android:text="@string/focus_delete_task"
+            />
+        <Button
+            android:id="@+id/active_mv_backlog_btn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/active_task_delete_btn"
+
+            android:text="@string/focus_move_to_backlog"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

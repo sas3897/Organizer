@@ -12,12 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.aechkae.organizer.Focus.common.Task;
-import com.aechkae.organizer.Focus.common.TaskType;
-import com.aechkae.organizer.Focus.common.UncompletedTasksTable;
+import com.aechkae.organizer.Focus.schemas.Task;
+import com.aechkae.organizer.Focus.schemas.TaskType;
+import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActivityFocusBinding;
 
@@ -72,15 +71,11 @@ public class FocusActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.active_tasks_item:
-                Toast.makeText(this, "Active Tasks item selected", Toast.LENGTH_LONG)
-                        .show();
                 display_search = false;
                 invalidateOptionsMenu();
                 showActiveTasks();
                 return true;
             case R.id.backlog_tasks_item:
-                Toast.makeText(this, "Tasks Backlog item selected", Toast.LENGTH_LONG)
-                        .show();
                 display_search = true;
                 invalidateOptionsMenu();
                 showBacklog();
@@ -146,8 +141,8 @@ public class FocusActivity extends AppCompatActivity {
                 null,
                 null);
 
-        //TODO now bind the cursor to the recyclerview
         activityFocusBinding.displayedTaskList.setAdapter(new BacklogTaskRecyclerViewAdapter(this, db_cursor));
+
     }
 
     /**
@@ -158,14 +153,25 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
         SQLiteDatabase taskDatabase = new FocusDBHelper(this).getReadableDatabase();
 
+        String[] projection = {
+                UncompletedTasksTable.COL_CODE,
+                UncompletedTasksTable.COL_DESC,
+                UncompletedTasksTable.COL_PERC
+        };
 
-        //TODO Make this draw from a repository
-        ArrayList<Task> activeTasks = new ArrayList<>(Arrays.asList(
-                new Task("test1", "testing this feature", 100),
-                new Task("test2", "testing it again with a second one", 20)
-        ));
+        String selection = UncompletedTasksTable.COL_TYPE + " = ?";
+        String [] selectionArgs = {TaskType.ACTIVE + ""};
 
+        Cursor db_cursor = taskDatabase.query(
+                UncompletedTasksTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
 
+        activityFocusBinding.displayedTaskList.setAdapter(new ActiveTaskRecyclerViewAdapter(this, db_cursor));
 
         //TODO Display the back-burner tasks
     }

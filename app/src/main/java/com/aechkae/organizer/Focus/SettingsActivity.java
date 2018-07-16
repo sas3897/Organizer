@@ -1,7 +1,9 @@
-package com.aechkae.organizer;
+package com.aechkae.organizer.Focus;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.aechkae.organizer.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
