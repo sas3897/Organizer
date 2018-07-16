@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Agile;
+package com.aechkae.organizer.Focus;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.aechkae.organizer.Agile.common.TaskType;
+import com.aechkae.organizer.Focus.common.TaskType;
 import com.aechkae.organizer.R;
 
-import static com.aechkae.organizer.Agile.common.UncompletedTasksTable.COL_CODE;
-import static com.aechkae.organizer.Agile.common.UncompletedTasksTable.COL_DESC;
-import static com.aechkae.organizer.Agile.common.UncompletedTasksTable.COL_PERC;
-import static com.aechkae.organizer.Agile.common.UncompletedTasksTable.COL_TYPE;
-import static com.aechkae.organizer.Agile.common.UncompletedTasksTable.TABLE_NAME;
+import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_CODE;
+import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_DESC;
+import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_PERC;
+import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.COL_TYPE;
+import static com.aechkae.organizer.Focus.common.UncompletedTasksTable.TABLE_NAME;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -31,18 +31,19 @@ public class AddTaskActivity extends AppCompatActivity {
         EditText desc_edit = findViewById(R.id.desc_edit);
         EditText perc_done_edit = findViewById(R.id.perc_done_edit);
 
-        SQLiteDatabase task_database = new AgileDBHelper(this).getWritableDatabase();
+        SQLiteDatabase task_database = new FocusDBHelper(this).getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COL_CODE, id_code_edit.getText().toString());
         values.put(COL_DESC, desc_edit.getText().toString());
         values.put(COL_PERC, Float.parseFloat(perc_done_edit.getText().toString()));
-        values.put(COL_TYPE, TaskType.BACKLOG.getType());
+        values.put(COL_TYPE, TaskType.BACKLOG);
 
         long newRowID = task_database.insert(TABLE_NAME, null, values);
 
-        Toast.makeText(this, "The new task's ID is: " + newRowID, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "New task with ID: " + newRowID + " added to backlog", Toast.LENGTH_LONG)
+                .show();
 
-        startActivity(new Intent(this, AgileActivity.class));
+        startActivity(new Intent(this, FocusActivity.class));
     }
 }

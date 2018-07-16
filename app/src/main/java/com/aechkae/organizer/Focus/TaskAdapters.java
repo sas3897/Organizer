@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Agile;
+package com.aechkae.organizer.Focus;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.aechkae.organizer.Agile.common.Task;
+import com.aechkae.organizer.Focus.common.Task;
 import com.aechkae.organizer.R;
 
 import java.util.ArrayList;
@@ -114,10 +114,10 @@ class ActiveTaskAdapter extends TaskAdapter{
             holder = (ActiveTaskHolder) row.getTag();
         }
 
-        Task Task = tasks.get(position);
-        holder.id.setText(Task.idCode);
-        holder.desc.setText(Task.description);
-        holder.perc.setText(Double.toString(Task.percentageDone));
+        Task task = tasks.get(position);
+        holder.id.setText(task.idCode);
+        holder.desc.setText(task.description);
+        holder.perc.setText(Double.toString(task.percentageDone));
 
         //TODO
         holder.deleteBtn.setOnClickListener((View v) -> {

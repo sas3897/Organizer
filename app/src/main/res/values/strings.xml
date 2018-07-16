@@ -1,7 +1,27 @@
 <resources>
     <string name="app_name">Organizer</string>
-    <string name="agile_btn_name">Agile</string>
-    <string name="backlog_btn_name">Backlog</string>
-    <string name="active_btn_name">Active</string>
-    <string name="database_name">Task Database</string>
+    <string name="module1_name">Reminder</string>
+    <string name="module2_name">Focus</string>
+    <string name="module3_name">Timer</string>
+
+    <!-- Focus-specific strings-->
+
+    <string name="focus_settings_item">Focus Settings</string>
+    <string name="focus_active_item">Active Tasks</string>
+    <string name="focus_backlog_item">Task Backlog</string>
+    <string name="focus_completed_item">Completed Tasks</string>
+    <string name="focus_about_item">About Focus</string>
+
+    <string name="focus_move_to_active">Move To Active</string>
+    <string name="focus_delete_task">Delete Task</string>
+    <string name="focus_move_to_backlog">Move to Backlog</string>
+    <string name="focus_move_to_burner">Move to Backburner</string>
+
+    <string name="focus_id_code_hint">ID Code</string>
+    <string name="focus_desc_hint">Brief Task Description</string>
+    <string name="focus_perc_hint">Percentage Done</string>
+
+    <string name="focus_add_task">Add Task</string>
+    <string name="focus_add_new_task">Add New Task</string>
+
 </resources>

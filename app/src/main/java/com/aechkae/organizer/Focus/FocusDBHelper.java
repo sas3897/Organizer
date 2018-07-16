@@ -1,18 +1,18 @@
-package com.aechkae.organizer.Agile;
+package com.aechkae.organizer.Focus;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.aechkae.organizer.Agile.common.CompletedTaskTable;
-import com.aechkae.organizer.Agile.common.UncompletedTasksTable;
+import com.aechkae.organizer.Focus.common.CompletedTaskTable;
+import com.aechkae.organizer.Focus.common.UncompletedTasksTable;
 
-public class AgileDBHelper extends SQLiteOpenHelper{
+public class FocusDBHelper extends SQLiteOpenHelper{
 
     private static final int DB_VERSION = 2;
     public static final String DB_NAME = "Agile_Database";
 
-    public AgileDBHelper(Context context){
+    public FocusDBHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
     }
 

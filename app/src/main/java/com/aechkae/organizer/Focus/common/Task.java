@@ -1,10 +1,7 @@
-package com.aechkae.organizer.Agile.common;
+package com.aechkae.organizer.Focus.common;
 
-/**
- * Analogous POJO for tasks stored in the SQLite database.
- */
-
-public class Task{
+/** Analogous POJO for tasks stored in the SQLite database. */
+public final class Task{
     public String idCode;
     public String description;
     public double percentageDone;

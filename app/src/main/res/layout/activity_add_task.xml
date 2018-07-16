@@ -4,26 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Agile.AddTaskActivity">
+    tools:context=".Focus.AddTaskActivity">
 
     <EditText
         android:id="@+id/id_code_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ID Code"/>
+        android:hint="@string/focus_id_code_hint"
+        android:maxLength="6"/>
 
     <EditText
         android:id="@+id/desc_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:hint="@string/focus_desc_hint"
         app:layout_constraintTop_toBottomOf="@id/id_code_edit"/>
 
     <EditText
         android:id="@+id/perc_done_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Percentage Done"
+        android:inputType="numberDecimal"
+        android:hint="@string/focus_perc_hint"
         app:layout_constraintTop_toBottomOf="@id/desc_edit"/>
 
     <Button
@@ -33,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        android:text="Add Task"
+        android:text="@string/focus_add_task"
         android:onClick="saveToDB"
         />
 

@@ -1,11 +1,9 @@
-package com.aechkae.organizer.Agile.common;
+package com.aechkae.organizer.Focus.common;
 
 import android.provider.BaseColumns;
 
-/**
- * All the schemas for the various tables I have to draw from
- */
-public class UncompletedTasksTable implements BaseColumns {
+/** Essentially just for the SQL statement, but in a centralized location*/
+public final class UncompletedTasksTable implements BaseColumns {
     public static final String
             COL_CODE = "code",
             COL_DESC = "description",
@@ -21,4 +19,7 @@ public class UncompletedTasksTable implements BaseColumns {
                 COL_PERC + " REAL, " +
                 COL_TYPE + " INTEGER)";
     }
+
+    //No initializing this class!
+    private UncompletedTasksTable(){}
 }

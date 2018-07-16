@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Focus.FocusActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,9 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".Agile.AgileActivity" />
         <activity android:name=".Timer.TimerActivity" />
-        <activity android:name=".Agile.AddTaskActivity"></activity>
+        <activity android:name=".Focus.AddTaskActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
-package com.aechkae.organizer.Agile.common;
+package com.aechkae.organizer.Focus.common;
 
 import android.provider.BaseColumns;
 
-public class CompletedTaskTable implements BaseColumns {
+/** Essentially just for the SQL statement, but in a centralized location*/
+public final class CompletedTaskTable implements BaseColumns {
     public static final String
             COL_CODE = "code",
             COL_DESC = "description",
@@ -19,4 +20,7 @@ public class CompletedTaskTable implements BaseColumns {
                 //TODO How do you do dates in SQLite?
                 COL_COMP_DATE + " INTEGER)";
     }
+
+    //No initializing this class!
+    private CompletedTaskTable(){}
 }

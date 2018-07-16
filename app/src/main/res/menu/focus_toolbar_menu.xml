@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/focus_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/focus_about_item"
+        android:visible="false"
+        app:showAsAction="ifRoom"
+    />
+
+    <!-- Options shown in overflow menu to navigate around Focus module -->
+    <!-- Go to Active -->
+    <item android:id="@+id/active_tasks_item"
+        android:title="@string/focus_active_item"
+        app:showAsAction="never"/>
+
+    <!-- Go to Backlog -->
+    <item android:id="@+id/backlog_tasks_item"
+        android:title="@string/focus_backlog_item"
+        app:showAsAction="never"/>
+
+    <!-- Go to Completed -->
+    <item android:id="@+id/completed_tasks_item"
+        android:title="@string/focus_completed_item"
+        app:showAsAction="never"/>
+
+    <!-- Go to About/Explanation -->
+    <item android:id="@+id/focus_about_item"
+        android:title="@string/focus_about_item"
+        app:showAsAction="never"/>
+
+    <!-- Go to Settings (Focus) -->
+    <item android:id="@+id/focus_settings_item"
+        android:title="@string/focus_settings_item"
+        app:showAsAction="never"/>
+</menu>
