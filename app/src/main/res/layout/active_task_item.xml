@@ -32,14 +32,14 @@
                 app:layout_constraintTop_toBottomOf="@id/task_desc"
                 tools:text="20%"/>
         </LinearLayout>
+
         <Button
             android:id="@+id/active_task_delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/active_task_info_linear_layout"
 
-            android:text="@string/focus_delete_task"
-            />
+            android:text="@string/focus_delete_task" />
         <Button
             android:id="@+id/active_mv_backlog_btn"
 
@@ -48,6 +48,16 @@
             app:layout_constraintStart_toEndOf="@id/active_task_delete_btn"
 
             android:text="@string/focus_move_to_backlog"
+            />
+        <Button
+            android:id="@+id/complete_task_btn"
+
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/active_task_info_linear_layout"
+            app:layout_constraintTop_toBottomOf="@id/active_task_delete_btn"
+
+            android:text="@string/focus_complete_task"
             />
 
     </android.support.constraint.ConstraintLayout>

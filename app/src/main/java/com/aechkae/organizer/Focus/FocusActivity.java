@@ -5,30 +5,29 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.aechkae.organizer.Focus.adapters.ActiveTaskRecyclerViewAdapter;
+import com.aechkae.organizer.Focus.adapters.BacklogTaskRecyclerViewAdapter;
+import com.aechkae.organizer.Focus.adapters.CompletedTaskRecyclerViewAdapter;
+import com.aechkae.organizer.Focus.schemas.CompletedTaskTable;
+import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
 import com.aechkae.organizer.Focus.schemas.Task;
 import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActivityFocusBinding;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 //ArrayList<Task> backlogTasks = new ArrayList<>(Arrays.asList(
-//        new Task("FINSOA", "Finish writing the first draft of 'A Scarf of Arms'", 80),
-//        new Task("BACKUP", "Make a backup of the data on Hephaestus and Demeter", 0),
 //        new Task("ORGNZR", "Complete Organizer's calendar, agile, and alarm modules", 1),
 //        new Task("HIGHWY", "Get used to driving on the highway", 10),
-//        new Task("EDIBLE", "Bake some cookies/brownies", 20),
 //        new Task("BUDGET", "Budget out stuff, formalize procedure, etc", 40),
 //        new Task("EXRCIS", "Create a routine for exercising, including diet", 5),
 //        new Task("VGROTH", "Set up the Roth IRA with Vanguard and make the 2017/2018 contributions", 0),
@@ -40,8 +39,6 @@ public class FocusActivity extends AppCompatActivity {
 
     private ActivityFocusBinding activityFocusBinding;
 
-    private RecyclerView.Adapter mAdapter;
-
     private boolean display_search = false;
 
     //TODO Need to show which 'sprint' we're in, and maybe a prompt to choose for that
@@ -50,12 +47,23 @@ public class FocusActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityFocusBinding= DataBindingUtil.setContentView(this, R.layout.activity_focus);
-        setSupportActionBar(activityFocusBinding.focusToolbar);
+        //Toolbar and Navbar
+        setSupportActionBar(activityFocusBinding.focusToolbar)  ;
         getSupportActionBar().setTitle(R.string.module2_name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        activityFocusBinding.focusNavBar.setNavigationItemSelectedListener((menuItem) -> {
+            menuItem.setChecked(true);
+            activityFocusBinding.focusDrawer.closeDrawers();
+
+            // Add code here to update the UI based on the item selected
+            // For example, swap UI fragments here
+            return true;
+        });
 
         //RecyclerView attributes
         activityFocusBinding.displayedTaskList.setLayoutManager(new LinearLayoutManager(this));
-
 
         showActiveTasks();
     }
@@ -81,10 +89,9 @@ public class FocusActivity extends AppCompatActivity {
                 showBacklog();
                 return true;
             case R.id.completed_tasks_item:
-                Toast.makeText(this, "Completed Tasks item selected", Toast.LENGTH_LONG)
-                        .show();
                 display_search = true;
                 invalidateOptionsMenu();
+                showCompletedTasks();
                 return true;
             case R.id.focus_about_item:
                 Toast.makeText(this, "About Focus item selected", Toast.LENGTH_LONG)
@@ -102,6 +109,10 @@ public class FocusActivity extends AppCompatActivity {
                 Toast.makeText(this, "Focus Search item selected", Toast.LENGTH_LONG)
                         .show();
                 return true;
+            //Module navigation menu button
+            case android.R.id.home:
+                activityFocusBinding.focusDrawer.openDrawer(GravityCompat.START);
+                return true;
             default:
                 Toast.makeText(this, "Some item was pressed that this doesn't handle.", Toast.LENGTH_LONG)
                         .show();
@@ -117,7 +128,7 @@ public class FocusActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void showBacklog(){
+    private void showBacklog(){
         // Demarcate which tab is active
         activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
 
@@ -129,13 +140,13 @@ public class FocusActivity extends AppCompatActivity {
                 UncompletedTasksTable.COL_PERC
         };
 
-        String selection = UncompletedTasksTable.COL_TYPE + " = ?";
+        String selectionClause = UncompletedTasksTable.COL_TYPE + " = ?";
         String [] selectionArgs = {TaskType.BACKLOG + ""};
 
         Cursor db_cursor = taskDatabase.query(
                 UncompletedTasksTable.TABLE_NAME,
                 projection,
-                selection,
+                selectionClause,
                 selectionArgs,
                 null,
                 null,
@@ -149,7 +160,7 @@ public class FocusActivity extends AppCompatActivity {
      * Displays the (up to) three active and three backburner tasks found in the "uncompleted_tasks"
      * table,
      */
-    public void showActiveTasks(){
+    private void showActiveTasks(){
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
         SQLiteDatabase taskDatabase = new FocusDBHelper(this).getReadableDatabase();
 
@@ -159,13 +170,13 @@ public class FocusActivity extends AppCompatActivity {
                 UncompletedTasksTable.COL_PERC
         };
 
-        String selection = UncompletedTasksTable.COL_TYPE + " = ?";
+        String selectionClause = UncompletedTasksTable.COL_TYPE + " = ?";
         String [] selectionArgs = {TaskType.ACTIVE + ""};
 
         Cursor db_cursor = taskDatabase.query(
                 UncompletedTasksTable.TABLE_NAME,
                 projection,
-                selection,
+                selectionClause,
                 selectionArgs,
                 null,
                 null,
@@ -174,6 +185,30 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding.displayedTaskList.setAdapter(new ActiveTaskRecyclerViewAdapter(this, db_cursor));
 
         //TODO Display the back-burner tasks
+    }
+
+    private void showCompletedTasks(){
+        activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
+
+        SQLiteDatabase taskDatabase = new FocusDBHelper(this).getReadableDatabase();
+
+        String[] projection = {
+                CompletedTaskTable.COL_CODE,
+                CompletedTaskTable.COL_DESC,
+                CompletedTaskTable.COL_COMP_DATE
+        };
+        String orderbyClause = CompletedTaskTable.COL_COMP_DATE + " DESC";
+        
+        Cursor db_cursor = taskDatabase.query(
+                CompletedTaskTable.TABLE_NAME, 
+                projection, 
+                null, 
+                null, 
+                null, 
+                null, 
+                orderbyClause);
+
+        activityFocusBinding.displayedTaskList.setAdapter(new CompletedTaskRecyclerViewAdapter(this, db_cursor));
     }
 
     public void goToTaskCreationPage(View v){

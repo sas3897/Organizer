@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus;
+package com.aechkae.organizer.Focus.adapters;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,23 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aechkae.organizer.Focus.schemas.CompletedTaskTable;
+import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
 import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActiveTaskItemBinding;
 
-import static com.aechkae.organizer.Focus.schemas.Task.CUTOFF_LENGTH;
+import java.util.Calendar;
+
+import static com.aechkae.organizer.Focus.schemas.CompletedTaskTable.COL_COMP_DATE;
+import static com.aechkae.organizer.Focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_CODE;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_DESC;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_PERC;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_TYPE;
-import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.TABLE_NAME;
 
 public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTaskRecyclerViewAdapter.ActiveTaskViewHolder>{
     private Context mContext;
     private Cursor mCursor;
 
-    ActiveTaskRecyclerViewAdapter(Context context, Cursor cursor){
+    public ActiveTaskRecyclerViewAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }
@@ -45,7 +49,7 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
         holder.activeTaskItemBinding.activeTaskDeleteBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             taskDatabase.delete(
-                    TABLE_NAME,
+                    UncompletedTasksTable.TABLE_NAME,
                     COL_CODE + "= ?",
                     new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
         });
@@ -56,8 +60,29 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
             ContentValues values = new ContentValues();
             values.put(COL_TYPE, TaskType.BACKLOG);
             taskDatabase.update(
-                    TABLE_NAME,
+                    UncompletedTasksTable.TABLE_NAME,
                     values,
+                    COL_CODE + "= ?",
+                    new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
+        });
+
+        //Complete task
+        holder.activeTaskItemBinding.completeTaskBtn.setOnClickListener((view) -> {
+            //TODO someone mentioned that you could just do "getDatabase" by some means, to
+            //TODO have read and write access. important here to avoid having desc get cut off
+            SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
+            //Generate a 'completed task' from the active task
+            ContentValues values = new ContentValues();
+            values.put(COL_CODE, holder.activeTaskItemBinding.activeTaskCode.getText().toString());
+            values.put(COL_DESC, holder.activeTaskItemBinding.activeTaskDesc.getText().toString());
+            values.put(COL_COMP_DATE, Calendar.getInstance().getTimeInMillis());
+
+            //Move it to the completed task table
+            taskDatabase.insert(CompletedTaskTable.TABLE_NAME, null, values);
+
+            //Delete it from the uncompleted task table
+            taskDatabase.delete(
+                    UncompletedTasksTable.TABLE_NAME,
                     COL_CODE + "= ?",
                     new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
         });
@@ -82,8 +107,8 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
 
             String desc = cursor.getString(
                     cursor.getColumnIndexOrThrow(COL_DESC));
-            if(desc.length() > CUTOFF_LENGTH){
-                activeTaskItemBinding.activeTaskDesc.setText(desc.substring(0, CUTOFF_LENGTH));
+            if(desc.length() > UNCOMP_DESC_CUTOFF_LENGTH){
+                activeTaskItemBinding.activeTaskDesc.setText(desc.substring(0, UNCOMP_DESC_CUTOFF_LENGTH));
             }
             else {
                 activeTaskItemBinding.activeTaskDesc.setText(desc);

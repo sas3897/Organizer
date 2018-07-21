@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus;
+package com.aechkae.organizer.Focus.adapters;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,12 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
 import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.BacklogTaskItemBinding;
 
-import static com.aechkae.organizer.Focus.schemas.Task.CUTOFF_LENGTH;
+import static com.aechkae.organizer.Focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_CODE;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_DESC;
 import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_PERC;
@@ -26,7 +27,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
     private Context mContext;
     private Cursor mCursor;
 
-    BacklogTaskRecyclerViewAdapter(Context context, Cursor cursor){
+    public BacklogTaskRecyclerViewAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }
@@ -83,8 +84,8 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
                     cursor.getColumnIndexOrThrow(COL_CODE)));
             String desc = cursor.getString(
                     cursor.getColumnIndexOrThrow(COL_DESC));
-            if(desc.length() > CUTOFF_LENGTH){
-                backlogTaskBinding.taskDesc.setText(desc.substring(0, CUTOFF_LENGTH));
+            if(desc.length() > UNCOMP_DESC_CUTOFF_LENGTH){
+                backlogTaskBinding.taskDesc.setText(desc.substring(0, UNCOMP_DESC_CUTOFF_LENGTH));
             }
             else {
                 backlogTaskBinding.taskDesc.setText(desc);

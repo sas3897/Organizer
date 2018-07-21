@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
 import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.R;
 

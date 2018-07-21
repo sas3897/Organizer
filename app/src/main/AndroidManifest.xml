@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Focus.FocusActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +18,8 @@
         </activity>
         <activity android:name=".Focus.SettingsActivity" />
         <activity android:name=".Timer.TimerActivity" />
-        <activity android:name=".Focus.AddTaskActivity"></activity>
+        <activity android:name=".Focus.AddTaskActivity" />
+        <activity android:name=".Reminder.ReminderActivity"></activity>
     </application>
 
 </manifest>
