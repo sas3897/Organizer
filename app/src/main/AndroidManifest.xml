@@ -19,7 +19,8 @@
         <activity android:name=".Focus.SettingsActivity" />
         <activity android:name=".Timer.TimerActivity" />
         <activity android:name=".Focus.AddTaskActivity" />
-        <activity android:name=".Reminder.ReminderActivity"></activity>
+        <activity android:name=".Reminder.ReminderActivity" />
+        <activity android:name=".Focus.HowToUseActivity"></activity>
     </application>
 
 </manifest>

@@ -19,7 +19,6 @@ import com.aechkae.organizer.Focus.adapters.BacklogTaskRecyclerViewAdapter;
 import com.aechkae.organizer.Focus.adapters.CompletedTaskRecyclerViewAdapter;
 import com.aechkae.organizer.Focus.schemas.CompletedTaskTable;
 import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
-import com.aechkae.organizer.Focus.schemas.Task;
 import com.aechkae.organizer.Focus.schemas.TaskType;
 import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
@@ -93,11 +92,10 @@ public class FocusActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
                 showCompletedTasks();
                 return true;
-            case R.id.focus_about_item:
-                Toast.makeText(this, "About Focus item selected", Toast.LENGTH_LONG)
-                        .show();
+            case R.id.focus_how_to_use:
                 display_search = false;
                 invalidateOptionsMenu();
+                goToHowToUse();
                 return true;
             case R.id.focus_settings_item:
                 Toast.makeText(this, "Focus Settings item selected", Toast.LENGTH_LONG)
@@ -211,15 +209,11 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding.displayedTaskList.setAdapter(new CompletedTaskRecyclerViewAdapter(this, db_cursor));
     }
 
+    private void goToHowToUse(){
+        startActivity(new Intent(this, HowToUseActivity.class));
+    }
+
     public void goToTaskCreationPage(View v){
         startActivity(new Intent(this, AddTaskActivity.class));
-    }
-
-    public void deleteTask(View v){
-
-    }
-
-    public void completeTask(Task at){
-        //TODO Move to 'log'
     }
 }

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/focus_search"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/focus_about_item"
+        android:title="@string/focus_how_to_use"
         android:visible="false"
         app:showAsAction="ifRoom"
     />
@@ -27,8 +27,8 @@
         app:showAsAction="never"/>
 
     <!-- Go to About/Explanation -->
-    <item android:id="@+id/focus_about_item"
-        android:title="@string/focus_about_item"
+    <item android:id="@+id/focus_how_to_use"
+        android:title="@string/focus_how_to_use"
         app:showAsAction="never"/>
 
     <!-- Go to Settings (Focus) -->

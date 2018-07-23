@@ -16,7 +16,7 @@
     <string name="focus_active_item">Active Tasks</string>
     <string name="focus_backlog_item">Task Backlog</string>
     <string name="focus_completed_item">Completed Tasks</string>
-    <string name="focus_about_item">About Focus</string>
+    <string name="focus_how_to_use">How to Use</string>
 
     <!-- Task actions -->
     <string name="focus_move_to_active">Move To Active</string>
