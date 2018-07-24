@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus.adapters;
+package com.aechkae.organizer.focus.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,15 +11,14 @@ import android.view.ViewGroup;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.CompletedTaskItemBinding;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static com.aechkae.organizer.Focus.schemas.CompletedTaskTable.COL_COMP_DATE;
-import static com.aechkae.organizer.Focus.schemas.Task.COMP_DESC_CUTOFF_LENGTH;
-import static com.aechkae.organizer.Focus.schemas.CompletedTaskTable.COL_CODE;
-import static com.aechkae.organizer.Focus.schemas.CompletedTaskTable.COL_DESC;
+import static com.aechkae.organizer.focus.schemas.CompletedTaskTable.COL_COMP_DATE;
+import static com.aechkae.organizer.focus.schemas.Task.COMP_DESC_CUTOFF_LENGTH;
+import static com.aechkae.organizer.focus.schemas.CompletedTaskTable.COL_CODE;
+import static com.aechkae.organizer.focus.schemas.CompletedTaskTable.COL_DESC;
 
 public class CompletedTaskRecyclerViewAdapter extends RecyclerView.Adapter<CompletedTaskRecyclerViewAdapter.CompletedTaskViewHolder> {
     private Context mContext;

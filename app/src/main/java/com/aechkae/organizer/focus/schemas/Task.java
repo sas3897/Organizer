@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus.schemas;
+package com.aechkae.organizer.focus.schemas;
 
 /** Analogous POJO for tasks stored in the SQLite database. */
 public final class Task{

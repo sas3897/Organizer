@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus.adapters;
+package com.aechkae.organizer.focus.adapters;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,18 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
-import com.aechkae.organizer.Focus.schemas.TaskType;
-import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
+import com.aechkae.organizer.focus.schemas.FocusDBHelper;
+import com.aechkae.organizer.focus.schemas.TaskType;
+import com.aechkae.organizer.focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.BacklogTaskItemBinding;
 
-import static com.aechkae.organizer.Focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
-import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_CODE;
-import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_DESC;
-import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_PERC;
-import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.COL_TYPE;
-import static com.aechkae.organizer.Focus.schemas.UncompletedTasksTable.TABLE_NAME;
+import static com.aechkae.organizer.focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
+import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_CODE;
+import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_DESC;
+import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_PERC;
+import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_TYPE;
+import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.TABLE_NAME;
 
 public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.BacklogTaskViewHolder>{
     private Context mContext;

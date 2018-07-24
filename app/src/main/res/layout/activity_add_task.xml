@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Focus.AddTaskActivity">
-
-    <EditText
-        android:id="@+id/id_code_edit"
+<layout>
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/focus_id_code_hint"
-        android:maxLength="6"/>
+        android:layout_height="match_parent"
+        tools:context=".focus.AddTaskActivity">
 
-    <EditText
-        android:id="@+id/desc_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/focus_desc_hint"
-        app:layout_constraintTop_toBottomOf="@id/id_code_edit"/>
+        <EditText
+            android:id="@+id/id_code_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/focus_id_code_hint"
+            android:inputType="textCapCharacters"
+            android:maxLength="6"/>
 
-    <EditText
-        android:id="@+id/perc_done_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:hint="@string/focus_perc_hint"
-        app:layout_constraintTop_toBottomOf="@id/desc_edit"/>
+        <EditText
+            android:id="@+id/desc_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/focus_desc_hint"
+            android:inputType="textCapSentences"
+            app:layout_constraintTop_toBottomOf="@id/id_code_edit"/>
 
-    <Button
-        android:id="@+id/create_task_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        <EditText
+            android:id="@+id/perc_done_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="@string/focus_perc_hint"
+            app:layout_constraintTop_toBottomOf="@id/desc_edit"/>
 
-        android:text="@string/focus_add_task"
-        android:onClick="saveToDB"
-        />
+        <Button
+            android:id="@+id/create_task_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
 
-</android.support.constraint.ConstraintLayout>
+            android:text="@string/focus_add_task"
+            android:onClick="saveToDB"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

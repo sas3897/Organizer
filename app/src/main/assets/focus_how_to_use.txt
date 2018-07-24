@@ -1,2 +1,10 @@
 Test text`
 New line in the txt
+
+Intro blurb/summary.``
+
+
+How to use Focus by itself:``
+
+
+How to use Focus with other modules:``

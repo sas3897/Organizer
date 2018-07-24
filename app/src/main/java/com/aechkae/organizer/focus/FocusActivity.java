@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus;
+package com.aechkae.organizer.focus;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,13 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.aechkae.organizer.Focus.adapters.ActiveTaskRecyclerViewAdapter;
-import com.aechkae.organizer.Focus.adapters.BacklogTaskRecyclerViewAdapter;
-import com.aechkae.organizer.Focus.adapters.CompletedTaskRecyclerViewAdapter;
-import com.aechkae.organizer.Focus.schemas.CompletedTaskTable;
-import com.aechkae.organizer.Focus.schemas.FocusDBHelper;
-import com.aechkae.organizer.Focus.schemas.TaskType;
-import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
+import com.aechkae.organizer.focus.adapters.ActiveTaskRecyclerViewAdapter;
+import com.aechkae.organizer.focus.adapters.BacklogTaskRecyclerViewAdapter;
+import com.aechkae.organizer.focus.adapters.CompletedTaskRecyclerViewAdapter;
+import com.aechkae.organizer.focus.schemas.CompletedTaskTable;
+import com.aechkae.organizer.focus.schemas.FocusDBHelper;
+import com.aechkae.organizer.focus.schemas.TaskType;
+import com.aechkae.organizer.focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActivityFocusBinding;
 
@@ -47,7 +47,8 @@ public class FocusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityFocusBinding= DataBindingUtil.setContentView(this, R.layout.activity_focus);
         //Toolbar and Navbar
-        setSupportActionBar(activityFocusBinding.focusToolbar)  ;
+        activityFocusBinding.focusToolbar.setBackgroundColor(getResources().getColor(R.color.focusColorPrimary));
+        setSupportActionBar(activityFocusBinding.focusToolbar);
         getSupportActionBar().setTitle(R.string.module2_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);

@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus.schemas;
+package com.aechkae.organizer.focus.schemas;
 
 import android.provider.BaseColumns;
 

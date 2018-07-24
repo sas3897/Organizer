@@ -1,4 +1,4 @@
-package com.aechkae.organizer.Focus;
+package com.aechkae.organizer.focus;
 
 import android.content.res.AssetManager;
 import android.databinding.DataBindingUtil;

@@ -10,13 +10,12 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.aechkae.organizer.Focus.FocusActivity">
+            tools:context="com.aechkae.organizer.focus.FocusActivity">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/focus_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:background="?android:attr/colorPrimary"
                 android:elevation="4dp"
 
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"

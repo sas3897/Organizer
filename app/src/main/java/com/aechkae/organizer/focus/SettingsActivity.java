@@ -1,15 +1,15 @@
-package com.aechkae.organizer.Reminder;
+package com.aechkae.organizer.focus;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.aechkae.organizer.R;
 
-public class ReminderActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reminder);
+        setContentView(R.layout.activity_settings);
     }
 }

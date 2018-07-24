@@ -9,18 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Focus.FocusActivity">
+        <activity android:name=".focus.FocusActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Focus.SettingsActivity" />
-        <activity android:name=".Timer.TimerActivity" />
-        <activity android:name=".Focus.AddTaskActivity" />
-        <activity android:name=".Reminder.ReminderActivity" />
-        <activity android:name=".Focus.HowToUseActivity"></activity>
+        <activity android:name=".focus.SettingsActivity" />
+        <activity android:name=".timer.TimerActivity" />
+        <activity android:name=".focus.AddTaskActivity" android:noHistory="true"/>
+        <activity android:name=".reminder.ReminderActivity" />
+        <activity android:name=".focus.HowToUseActivity" />
+        <activity android:name=".notable.NotableActivity"/>
     </application>
 
 </manifest>

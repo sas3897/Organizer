@@ -1,11 +1,8 @@
-package com.aechkae.organizer.Focus.schemas;
+package com.aechkae.organizer.focus.schemas;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.aechkae.organizer.Focus.schemas.CompletedTaskTable;
-import com.aechkae.organizer.Focus.schemas.UncompletedTasksTable;
 
 public class FocusDBHelper extends SQLiteOpenHelper{
 
