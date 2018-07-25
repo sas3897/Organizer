@@ -12,14 +12,7 @@
             android:layout_height="match_parent"
             tools:context="com.aechkae.organizer.focus.FocusActivity">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/focus_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:elevation="4dp"
-
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            <include layout="@layout/focus_toolbar"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/displayed_task_list"
@@ -49,6 +42,7 @@
             android:fitsSystemWindows="true"
             app:menu="@menu/nav_drawer_menu"
             app:headerLayout="@layout/nav_bar_header"
+            app:itemTextColor="@color/nav_bar_color_selector"
             />
     </android.support.v4.widget.DrawerLayout>
 </layout>

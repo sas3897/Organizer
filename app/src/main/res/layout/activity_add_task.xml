@@ -7,13 +7,17 @@
         android:layout_height="match_parent"
         tools:context=".focus.AddTaskActivity">
 
+        <include layout="@layout/focus_toolbar"/>
+
         <EditText
             android:id="@+id/id_code_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/focus_id_code_hint"
             android:inputType="textCapCharacters"
-            android:maxLength="6"/>
+            android:maxLength="6"
+            app:layout_constraintTop_toBottomOf="@id/focus_toolbar"
+            />
 
         <EditText
             android:id="@+id/desc_edit"

@@ -13,5 +13,9 @@
             android:id="@+id/nav_timer"
             android:title="@string/module3_name"
             android:icon="@drawable/ic_search_black_24dp" />
+        <item
+            android:id="@+id/nav_notable"
+            android:title="@string/module4_name"
+            android:icon="@drawable/ic_search_black_24dp"/>
     </group>
 </menu>

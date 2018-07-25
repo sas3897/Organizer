@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,13 +24,14 @@ import com.aechkae.organizer.focus.schemas.TaskType;
 import com.aechkae.organizer.focus.schemas.UncompletedTasksTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActivityFocusBinding;
+import com.aechkae.organizer.notable.NotableActivity;
+import com.aechkae.organizer.reminder.ReminderActivity;
+import com.aechkae.organizer.timer.TimerActivity;
 
 //ArrayList<Task> backlogTasks = new ArrayList<>(Arrays.asList(
-//        new Task("ORGNZR", "Complete Organizer's calendar, agile, and alarm modules", 1),
 //        new Task("HIGHWY", "Get used to driving on the highway", 10),
 //        new Task("BUDGET", "Budget out stuff, formalize procedure, etc", 40),
 //        new Task("EXRCIS", "Create a routine for exercising, including diet", 5),
-//        new Task("VGROTH", "Set up the Roth IRA with Vanguard and make the 2017/2018 contributions", 0),
 //        new Task("BONEST", "Write first draft of 'Bone Stronger than Bone'", 0),
 //        new Task("DRKNGT", "Write first draft of 'Dark was the Night'", 50)
 //        ));
@@ -47,8 +49,7 @@ public class FocusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityFocusBinding= DataBindingUtil.setContentView(this, R.layout.activity_focus);
         //Toolbar and Navbar
-        activityFocusBinding.focusToolbar.setBackgroundColor(getResources().getColor(R.color.focusColorPrimary));
-        setSupportActionBar(activityFocusBinding.focusToolbar);
+        setSupportActionBar(findViewById(R.id.focus_toolbar));
         getSupportActionBar().setTitle(R.string.module2_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -57,8 +58,24 @@ public class FocusActivity extends AppCompatActivity {
             menuItem.setChecked(true);
             activityFocusBinding.focusDrawer.closeDrawers();
 
-            // Add code here to update the UI based on the item selected
-            // For example, swap UI fragments here
+            //Swap the present activity
+            switch(menuItem.getItemId()){
+                case R.id.nav_focus: //We're in Focus already
+                    break;
+                case R.id.nav_reminder:
+                    startActivity(new Intent(this, ReminderActivity.class));
+                    break;
+                case R.id.nav_timer:
+                    startActivity(new Intent(this, TimerActivity.class));
+                    break;
+                case R.id.nav_notable:
+                    startActivity(new Intent(this, NotableActivity.class));
+                    break;
+                default:
+                    Toast.makeText(this, "Unknown nav item pressed", Toast.LENGTH_LONG)
+                            .show();
+            }
+
             return true;
         });
 
@@ -121,9 +138,8 @@ public class FocusActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(Build.VERSION.SDK_INT > 11) {
-            menu.findItem(R.id.focus_search).setVisible(display_search);
-        }
+        //Hide the search icon if necessary
+        menu.findItem(R.id.focus_search).setVisible(display_search);
         return super.onPrepareOptionsMenu(menu);
     }
 

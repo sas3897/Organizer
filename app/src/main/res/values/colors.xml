@@ -7,4 +7,5 @@
     <color name="focusColorPrimaryDark">#00701a</color>
     <!--   a secondary color for controls like checkboxes and text fields -->
     <color name="focusColorAccent">#00e676</color>
+    <color name="navSelectedItem">#616a61</color>
 </resources>

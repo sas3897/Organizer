@@ -21,6 +21,8 @@ public class HowToUseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityHowToUseBinding = DataBindingUtil.setContentView(this, R.layout.activity_how_to_use);
+        setSupportActionBar(findViewById(R.id.focus_toolbar));
+        getSupportActionBar().setTitle(R.string.module2_name);
 
         AssetManager assetManager = getAssets();
         try {
