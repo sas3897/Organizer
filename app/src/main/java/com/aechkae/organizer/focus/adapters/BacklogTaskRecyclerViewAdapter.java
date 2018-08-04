@@ -90,8 +90,9 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
             else {
                 backlogTaskBinding.taskDesc.setText(desc);
             }
-            backlogTaskBinding.taskPercDone.setText("" + cursor.getDouble(
-                    cursor.getColumnIndexOrThrow(COL_PERC)));
+            backlogTaskBinding.taskPercDone.setText(
+                    mContext.getString(R.string.focus_perc_done_format,
+                            cursor.getFloat(cursor.getColumnIndexOrThrow(COL_PERC))));
         }
     }
 }

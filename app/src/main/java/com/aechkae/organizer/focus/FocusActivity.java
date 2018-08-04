@@ -223,7 +223,7 @@ public class FocusActivity extends AppCompatActivity {
                 null, 
                 orderbyClause);
 
-        activityFocusBinding.displayedTaskList.setAdapter(new CompletedTaskRecyclerViewAdapter(this, db_cursor));
+        activityFocusBinding.displayedTaskList.setAdapter(new CompletedTaskRecyclerViewAdapter(db_cursor));
     }
 
     private void goToHowToUse(){

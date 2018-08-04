@@ -21,11 +21,9 @@ import static com.aechkae.organizer.focus.schemas.CompletedTaskTable.COL_CODE;
 import static com.aechkae.organizer.focus.schemas.CompletedTaskTable.COL_DESC;
 
 public class CompletedTaskRecyclerViewAdapter extends RecyclerView.Adapter<CompletedTaskRecyclerViewAdapter.CompletedTaskViewHolder> {
-    private Context mContext;
     private Cursor mCursor;
 
-    public CompletedTaskRecyclerViewAdapter(Context context, Cursor cursor){
-        mContext = context;
+    public CompletedTaskRecyclerViewAdapter(Cursor cursor){
         mCursor = cursor;
     }
 
@@ -55,7 +53,6 @@ public class CompletedTaskRecyclerViewAdapter extends RecyclerView.Adapter<Compl
         }
 
         void bindCursor(Cursor cursor){
-            //TODO
             completedTaskItemBinding.compTaskCode.setText(cursor.getString(
                     cursor.getColumnIndexOrThrow(COL_CODE)));
 

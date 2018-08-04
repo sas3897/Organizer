@@ -113,8 +113,9 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
             else {
                 activeTaskItemBinding.activeTaskDesc.setText(desc);
             }
-            activeTaskItemBinding.activeTaskPercDone.setText("" + cursor.getDouble(
-                    cursor.getColumnIndexOrThrow(COL_PERC)));
+            activeTaskItemBinding.activeTaskPercDone.setText(
+                    mContext.getString(R.string.focus_perc_done_format,
+                            cursor.getFloat(cursor.getColumnIndexOrThrow(COL_PERC))));
         }
     }
 }
