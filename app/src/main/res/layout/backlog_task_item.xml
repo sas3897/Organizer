@@ -31,25 +31,26 @@
                 app:layout_constraintTop_toBottomOf="@id/task_desc"
                 tools:text="20%"/>
         </LinearLayout>
-        <ImageView
-            android:id="@+id/backlog_delete_btn"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/task_info_linear_layout"
-            app:layout_constraintTop_toTopOf="@id/task_container"
-
-            android:contentDescription="@string/focus_delete_task"
-            android:src="@drawable/ic_cancel_black_24dp"/>
         <Button
             android:id="@+id/backlog_mv_active_btn"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/backlog_delete_btn"
+            app:layout_constraintStart_toEndOf="@id/task_info_linear_layout"
 
             android:text="@string/focus_move_to_active"
             />
+        <ImageView
+            android:id="@+id/backlog_delete_btn"
+
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintStart_toEndOf="@id/backlog_mv_active_btn"
+            app:layout_constraintTop_toTopOf="@id/task_container"
+
+            android:contentDescription="@string/focus_delete_task"
+            android:src="@drawable/ic_cancel_black_24dp"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

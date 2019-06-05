@@ -1,25 +1,15 @@
 package com.aechkae.organizer.focus.adapters;
 
 import android.database.Cursor;
-import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aechkae.organizer.R;
-import com.aechkae.organizer.databinding.CompletedTaskItemBinding;
+import com.aechkae.organizer.focus.view_holders.CompTaskViewHolder;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import static com.aechkae.organizer.focus.schemas.CompTaskTable.COL_COMP_DATE;
-import static com.aechkae.organizer.focus.schemas.Task.COMP_DESC_CUTOFF_LENGTH;
-import static com.aechkae.organizer.focus.schemas.CompTaskTable.COL_CODE;
-import static com.aechkae.organizer.focus.schemas.CompTaskTable.COL_DESC;
-
-public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskRVAdapter.CompletedTaskViewHolder> {
+public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskViewHolder> {
     private Cursor mCursor;
 
     public CompTaskRVAdapter(Cursor cursor){
@@ -32,41 +22,17 @@ public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskRVAdapter.Co
     }
 
     @Override
-    public void onBindViewHolder(CompletedTaskViewHolder holder, int position) {
+    public void onBindViewHolder(CompTaskViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         holder.bindCursor(mCursor);
     }
 
     @Override
-    public CompletedTaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public CompTaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.completed_task_item, parent, false);
-        return new CompletedTaskViewHolder(view);
+        return new CompTaskViewHolder(view);
     }
 
-    class CompletedTaskViewHolder extends RecyclerView.ViewHolder{
-        CompletedTaskItemBinding completedTaskItemBinding;
-        CompletedTaskViewHolder(View itemView){
-            super(itemView);
-            completedTaskItemBinding = DataBindingUtil.bind(itemView);
-        }
 
-        void bindCursor(Cursor cursor){
-            completedTaskItemBinding.compTaskCode.setText(cursor.getString(
-                    cursor.getColumnIndexOrThrow(COL_CODE)));
-
-            String desc = cursor.getString(
-                    cursor.getColumnIndexOrThrow(COL_DESC));
-            if(desc.length() > COMP_DESC_CUTOFF_LENGTH){
-                completedTaskItemBinding.compTaskDesc.setText(desc.substring(0, COMP_DESC_CUTOFF_LENGTH));
-            }
-            else {
-                completedTaskItemBinding.compTaskDesc.setText(desc);
-            }
-
-            Calendar cal  = Calendar.getInstance();
-            cal.setTimeInMillis(cursor.getLong(cursor.getColumnIndexOrThrow(COL_COMP_DATE)));
-            completedTaskItemBinding.dateTaskComp.setText(new SimpleDateFormat("MM/dd/yyyy", Locale.US).format(cal.getTime()));
-        }
-    }
 }

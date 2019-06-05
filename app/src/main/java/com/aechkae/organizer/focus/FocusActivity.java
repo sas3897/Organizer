@@ -141,8 +141,9 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
 
         Cursor db_cursor = db_adapter.getAllUncompTaskOfType(TaskType.BACKLOG);
-        activityFocusBinding.displayedTaskList.setAdapter(new BacklogTaskRVAdapter(this, db_cursor));
+        activityFocusBinding.displayedTaskList.setAdapter(new BacklogTaskRVAdapter(this, db_cursor, db_adapter));
 
+//        db_cursor.close();
     }
 
     /**
@@ -153,9 +154,11 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
         Cursor db_cursor = db_adapter.getAllUncompTaskOfType(TaskType.ACTIVE);
 
-        activityFocusBinding.displayedTaskList.setAdapter(new ActiveTaskRVAdapter(this, db_cursor));
+        activityFocusBinding.displayedTaskList.setAdapter(new ActiveTaskRVAdapter(this, db_cursor, db_adapter));
 
         //TODO Display the back-burner tasks
+
+//        db_cursor.close();
     }
 
     private void showCompletedTasks(){
@@ -164,6 +167,8 @@ public class FocusActivity extends AppCompatActivity {
         Cursor db_cursor = db_adapter.getAllCompTask();
 
         activityFocusBinding.displayedTaskList.setAdapter(new CompTaskRVAdapter(db_cursor));
+
+//        db_cursor.close();
     }
 
     private void goToHowToUse(){

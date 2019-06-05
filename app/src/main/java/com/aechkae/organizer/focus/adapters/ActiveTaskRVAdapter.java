@@ -4,35 +4,34 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aechkae.organizer.focus.schemas.CompTaskTable;
+import com.aechkae.organizer.focus.schemas.FocusDBAdapter;
 import com.aechkae.organizer.focus.schemas.FocusDBHelper;
 import com.aechkae.organizer.focus.schemas.Task;
 import com.aechkae.organizer.focus.schemas.UncompTaskTable;
 import com.aechkae.organizer.R;
-import com.aechkae.organizer.databinding.ActiveTaskItemBinding;
+import com.aechkae.organizer.focus.view_holders.ActiveTaskViewHolder;
 
 import java.util.Calendar;
 
 import static com.aechkae.organizer.focus.schemas.CompTaskTable.COL_COMP_DATE;
-import static com.aechkae.organizer.focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
 import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_CODE;
 import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_DESC;
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_PERC;
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_TYPE;
 
-public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskRVAdapter.ActiveTaskViewHolder>{
+public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHolder>{
     private Context mContext;
     private Cursor mCursor;
+    private FocusDBAdapter db_adapter;
 
-    public ActiveTaskRVAdapter(Context context, Cursor cursor){
+    public ActiveTaskRVAdapter(Context context, Cursor cursor, FocusDBAdapter dbAdapter){
         mContext = context;
         mCursor = cursor;
+        db_adapter = dbAdapter;
     }
 
     @Override
@@ -43,38 +42,32 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskRVAdapte
     @Override
     public void onBindViewHolder(ActiveTaskViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.bindCursor(mCursor);
+        holder.bindCursor(mCursor, mContext);
 
         //Remove task from DB
-        holder.activeTaskItemBinding.activeTaskDeleteBtn.setOnClickListener((view) -> {
-            SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
-            taskDatabase.delete(
-                    UncompTaskTable.TABLE_NAME,
-                    COL_CODE + "= ?",
-                    new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
-        });
+        holder.getActiveTaskItemBinding().activeTaskDeleteBtn.setOnClickListener((view) ->
+            db_adapter.deleteTask(
+                    new String[]{holder.getActiveTaskItemBinding().
+                            activeTaskCode.getText().toString()})
+        );
+
 
         //Move to backlog
-        holder.activeTaskItemBinding.activeMvBacklogBtn.setOnClickListener((view) -> {
-            SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(COL_TYPE, Task.TaskType.BACKLOG.getDb_flag());
-            taskDatabase.update(
-                    UncompTaskTable.TABLE_NAME,
-                    values,
-                    COL_CODE + "= ?",
-                    new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
-        });
+        holder.getActiveTaskItemBinding().activeMvBacklogBtn.setOnClickListener((view) ->
+            db_adapter.moveTask(
+                    new String[]{holder.getActiveTaskItemBinding().
+                            activeTaskCode.getText().toString()}, Task.TaskType.BACKLOG)
+        );
 
         //Complete task
-        holder.activeTaskItemBinding.completeTaskBtn.setOnClickListener((view) -> {
+        holder.getActiveTaskItemBinding().completeTaskBtn.setOnClickListener((view) -> {
             //TODO someone mentioned that you could just do "getDatabase" by some means, to
             //TODO have read and write access. important here to avoid having desc get cut off
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             //Generate a 'completed task' from the active task
             ContentValues values = new ContentValues();
-            values.put(COL_CODE, holder.activeTaskItemBinding.activeTaskCode.getText().toString());
-            values.put(COL_DESC, holder.activeTaskItemBinding.activeTaskDesc.getText().toString());
+            values.put(COL_CODE, holder.getActiveTaskItemBinding().activeTaskCode.getText().toString());
+            values.put(COL_DESC, holder.getActiveTaskItemBinding().activeTaskDesc.getText().toString());
             values.put(COL_COMP_DATE, Calendar.getInstance().getTimeInMillis());
 
             //Move it to the completed task table
@@ -84,7 +77,7 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskRVAdapte
             taskDatabase.delete(
                     UncompTaskTable.TABLE_NAME,
                     COL_CODE + "= ?",
-                    new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
+                    new String[]{holder.getActiveTaskItemBinding().activeTaskCode.getText().toString()});
         });
     }
 
@@ -95,27 +88,5 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskRVAdapte
         return new ActiveTaskViewHolder(view);
     }
 
-    class ActiveTaskViewHolder extends RecyclerView.ViewHolder{
-        ActiveTaskItemBinding activeTaskItemBinding;
-        ActiveTaskViewHolder(View itemView){
-            super(itemView);
-            activeTaskItemBinding = DataBindingUtil.bind(itemView);
-        }
-        void bindCursor(Cursor cursor){
-            activeTaskItemBinding.activeTaskCode.setText(cursor.getString(
-                    cursor.getColumnIndexOrThrow(COL_CODE)));
 
-            String desc = cursor.getString(
-                    cursor.getColumnIndexOrThrow(COL_DESC));
-            if(desc.length() > UNCOMP_DESC_CUTOFF_LENGTH){
-                activeTaskItemBinding.activeTaskDesc.setText(desc.substring(0, UNCOMP_DESC_CUTOFF_LENGTH));
-            }
-            else {
-                activeTaskItemBinding.activeTaskDesc.setText(desc);
-            }
-            activeTaskItemBinding.activeTaskPercDone.setText(
-                    mContext.getString(R.string.focus_perc_done_format,
-                            cursor.getFloat(cursor.getColumnIndexOrThrow(COL_PERC))));
-        }
-    }
 }

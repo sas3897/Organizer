@@ -1,10 +1,14 @@
 package com.aechkae.organizer.focus.schemas;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import com.aechkae.organizer.focus.schemas.Task.TaskType;
+
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_CODE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_TYPE;
 
 
 public class FocusDBAdapter {
@@ -59,5 +63,22 @@ public class FocusDBAdapter {
 
         return db.query(CompTaskTable.TABLE_NAME, proj, null,
                 null, null, null, orderbyClause);
+    }
+
+    public void deleteTask(String[] taskCode){
+        db.delete(
+                UncompTaskTable.TABLE_NAME,
+                COL_CODE + "= ?",
+                taskCode);
+    }
+
+    public void moveTask(String[] taskCode, TaskType ty){
+        ContentValues values = new ContentValues();
+        values.put(COL_TYPE, ty.getDb_flag());
+        db.update(
+                UncompTaskTable.TABLE_NAME,
+                values,
+                COL_CODE + "= ?",
+                taskCode);
     }
 }
