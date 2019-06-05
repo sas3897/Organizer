@@ -2,7 +2,6 @@ package com.aechkae.organizer.focus;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;

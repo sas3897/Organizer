@@ -13,7 +13,11 @@
             android:id="@+id/active_task_info_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+
+            app:layout_constraintTop_toTopOf="@id/active_task_container"
+            app:layout_constraintStart_toStartOf="@id/active_task_container"
+            >
             <TextView
                 android:id="@+id/active_task_code"
                 android:layout_width="wrap_content"
@@ -34,30 +38,38 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/active_task_delete_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/active_task_info_linear_layout"
-
-            android:text="@string/focus_delete_task" />
-        <Button
             android:id="@+id/active_mv_backlog_btn"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/active_task_delete_btn"
+            app:layout_constraintTop_toTopOf="@id/active_task_container"
+            app:layout_constraintStart_toEndOf="@id/active_task_info_linear_layout"
+
 
             android:text="@string/focus_move_to_backlog"
+
             />
-        <Button
+        <ImageView
+            android:id="@+id/active_task_delete_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toTopOf="@id/active_task_container"
+            app:layout_constraintStart_toEndOf="@id/active_mv_backlog_btn"
+
+            android:contentDescription="@string/focus_delete_task"
+            android:src="@drawable/ic_cancel_black_24dp"
+             />
+
+        <ImageView
             android:id="@+id/complete_task_btn"
 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/active_task_info_linear_layout"
-            app:layout_constraintTop_toBottomOf="@id/active_task_delete_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/focus_complete_task"
+            app:layout_constraintStart_toEndOf="@id/active_task_delete_btn"
+            app:layout_constraintTop_toTopOf="@id/active_task_container"
 
-            android:text="@string/focus_complete_task"
+            android:src="@drawable/ic_check_circle_black_24dp"
             />
 
     </android.support.constraint.ConstraintLayout>
