@@ -11,23 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aechkae.organizer.focus.schemas.FocusDBHelper;
-import com.aechkae.organizer.focus.schemas.TaskType;
-import com.aechkae.organizer.focus.schemas.UncompletedTasksTable;
+import com.aechkae.organizer.focus.schemas.Task;
+import com.aechkae.organizer.focus.schemas.UncompTaskTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.BacklogTaskItemBinding;
 
 import static com.aechkae.organizer.focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_CODE;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_DESC;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_PERC;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_TYPE;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.TABLE_NAME;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_CODE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_DESC;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_PERC;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_TYPE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.TABLE_NAME;
 
-public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.BacklogTaskViewHolder>{
+public class BacklogTaskRVAdapter extends RecyclerView.Adapter<BacklogTaskRVAdapter.BacklogTaskViewHolder>{
     private Context mContext;
     private Cursor mCursor;
 
-    public BacklogTaskRecyclerViewAdapter(Context context, Cursor cursor){
+    public BacklogTaskRVAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }
@@ -46,7 +46,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
         holder.backlogTaskBinding.backlogDeleteBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             taskDatabase.delete(
-                    UncompletedTasksTable.TABLE_NAME,
+                    UncompTaskTable.TABLE_NAME,
                     COL_CODE + "= ?",
                     new String[]{holder.backlogTaskBinding.taskCode.getText().toString()});
         });
@@ -55,7 +55,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
         holder.backlogTaskBinding.backlogMvActiveBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(COL_TYPE, TaskType.ACTIVE);
+            values.put(COL_TYPE, Task.TaskType.ACTIVE.getDb_flag());
             taskDatabase.update(
                     TABLE_NAME,
                     values,

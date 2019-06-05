@@ -1,7 +1,6 @@
 package com.aechkae.organizer.focus;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
@@ -11,14 +10,14 @@ import android.widget.Toast;
 
 import com.aechkae.organizer.databinding.ActivityAddTaskBinding;
 import com.aechkae.organizer.focus.schemas.FocusDBHelper;
-import com.aechkae.organizer.focus.schemas.TaskType;
 import com.aechkae.organizer.R;
+import com.aechkae.organizer.focus.schemas.Task;
 
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_CODE;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_DESC;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_PERC;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_TYPE;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.TABLE_NAME;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_CODE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_DESC;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_PERC;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_TYPE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.TABLE_NAME;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -39,7 +38,7 @@ public class AddTaskActivity extends AppCompatActivity {
         values.put(COL_CODE, actBinding.idCodeEdit.getText().toString());
         values.put(COL_DESC, actBinding.descEdit.getText().toString());
         values.put(COL_PERC, Float.parseFloat(actBinding.percDoneEdit.getText().toString()));
-        values.put(COL_TYPE, TaskType.BACKLOG);
+        values.put(COL_TYPE, Task.TaskType.BACKLOG.getDb_flag());
 
         long newRowID = task_database.insert(TABLE_NAME, null, values);
 

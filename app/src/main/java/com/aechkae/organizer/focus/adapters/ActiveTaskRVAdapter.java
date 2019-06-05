@@ -10,27 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aechkae.organizer.focus.schemas.CompletedTaskTable;
+import com.aechkae.organizer.focus.schemas.CompTaskTable;
 import com.aechkae.organizer.focus.schemas.FocusDBHelper;
-import com.aechkae.organizer.focus.schemas.TaskType;
-import com.aechkae.organizer.focus.schemas.UncompletedTasksTable;
+import com.aechkae.organizer.focus.schemas.Task;
+import com.aechkae.organizer.focus.schemas.UncompTaskTable;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActiveTaskItemBinding;
 
 import java.util.Calendar;
 
-import static com.aechkae.organizer.focus.schemas.CompletedTaskTable.COL_COMP_DATE;
+import static com.aechkae.organizer.focus.schemas.CompTaskTable.COL_COMP_DATE;
 import static com.aechkae.organizer.focus.schemas.Task.UNCOMP_DESC_CUTOFF_LENGTH;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_CODE;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_DESC;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_PERC;
-import static com.aechkae.organizer.focus.schemas.UncompletedTasksTable.COL_TYPE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_CODE;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_DESC;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_PERC;
+import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_TYPE;
 
-public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTaskRecyclerViewAdapter.ActiveTaskViewHolder>{
+public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskRVAdapter.ActiveTaskViewHolder>{
     private Context mContext;
     private Cursor mCursor;
 
-    public ActiveTaskRecyclerViewAdapter(Context context, Cursor cursor){
+    public ActiveTaskRVAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }
@@ -49,7 +49,7 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
         holder.activeTaskItemBinding.activeTaskDeleteBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             taskDatabase.delete(
-                    UncompletedTasksTable.TABLE_NAME,
+                    UncompTaskTable.TABLE_NAME,
                     COL_CODE + "= ?",
                     new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
         });
@@ -58,9 +58,9 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
         holder.activeTaskItemBinding.activeMvBacklogBtn.setOnClickListener((view) -> {
             SQLiteDatabase taskDatabase = new FocusDBHelper(mContext).getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(COL_TYPE, TaskType.BACKLOG);
+            values.put(COL_TYPE, Task.TaskType.BACKLOG.getDb_flag());
             taskDatabase.update(
-                    UncompletedTasksTable.TABLE_NAME,
+                    UncompTaskTable.TABLE_NAME,
                     values,
                     COL_CODE + "= ?",
                     new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
@@ -78,11 +78,11 @@ public class ActiveTaskRecyclerViewAdapter extends RecyclerView.Adapter<ActiveTa
             values.put(COL_COMP_DATE, Calendar.getInstance().getTimeInMillis());
 
             //Move it to the completed task table
-            taskDatabase.insert(CompletedTaskTable.TABLE_NAME, null, values);
+            taskDatabase.insert(CompTaskTable.TABLE_NAME, null, values);
 
             //Delete it from the uncompleted task table
             taskDatabase.delete(
-                    UncompletedTasksTable.TABLE_NAME,
+                    UncompTaskTable.TABLE_NAME,
                     COL_CODE + "= ?",
                     new String[]{holder.activeTaskItemBinding.activeTaskCode.getText().toString()});
         });

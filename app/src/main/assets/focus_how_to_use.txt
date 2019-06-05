@@ -5,6 +5,11 @@ Intro blurb/summary.``
 
 
 How to use Focus by itself:``
+    Focus is not meant to be used for small tasks, like running errands.
+    It is meant to track tasks that could take weeks or months to complete.
+    What a task is exactly is for a user to define, but examples include:
+    writing a short story; creating a small app; creating a module of a large
+    app, and so on.
 
 
 How to use Focus with other modules:``

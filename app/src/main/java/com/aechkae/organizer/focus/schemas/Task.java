@@ -14,4 +14,19 @@ public final class Task{
         description = desc;
         percentageDone = perc;
     }
+
+    public enum TaskType{
+        ACTIVE(0),
+        BACKBURNER(1),
+        BACKLOG(2);
+
+        private int db_flag;
+        TaskType(int db_flag){
+            this.db_flag = db_flag;
+        }
+
+        public int getDb_flag(){
+            return db_flag;
+        }
+    }
 }
