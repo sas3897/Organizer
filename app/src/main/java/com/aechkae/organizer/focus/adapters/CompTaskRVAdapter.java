@@ -1,30 +1,51 @@
 package com.aechkae.organizer.focus.adapters;
 
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aechkae.organizer.R;
+import com.aechkae.organizer.databinding.CompletedTaskItemBinding;
+import com.aechkae.organizer.focus.CompTask;
 import com.aechkae.organizer.focus.view_holders.CompTaskViewHolder;
 
-public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskViewHolder> {
-    private Cursor mCursor;
+import java.util.List;
 
-    public CompTaskRVAdapter(Cursor cursor){
-        mCursor = cursor;
+import static com.aechkae.organizer.focus.Task.COMP_DESC_CUTOFF_LENGTH;
+
+public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskViewHolder> {
+    private List<CompTask> compTasks;
+
+    public CompTaskRVAdapter(List<CompTask> tasks){
+        compTasks = tasks;
+    }
+
+    public void setCompTasks(List<CompTask> compTasks) {
+        this.compTasks = compTasks;
     }
 
     @Override
     public int getItemCount(){
-        return mCursor.getCount();
+        return compTasks.size();
     }
 
     @Override
     public void onBindViewHolder(CompTaskViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
-        holder.bindCursor(mCursor);
+        CompletedTaskItemBinding vhBinding = holder.getCompTaskItemBinding();
+        CompTask vhTask = compTasks.get(position);
+
+        vhBinding.compTaskCode.setText(vhTask.idCode);
+
+        // TODO this is bad and should occur automatically
+        if(vhTask.description.length() > COMP_DESC_CUTOFF_LENGTH){
+            vhBinding.compTaskDesc.setText(vhTask.description.substring(0, COMP_DESC_CUTOFF_LENGTH));
+        }
+        else{
+            vhBinding.compTaskDesc.setText(vhTask.description);
+        }
+
+        vhBinding.dateTaskComp.setText(vhTask.compDate);
     }
 
     @Override

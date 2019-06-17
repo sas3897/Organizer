@@ -1,4 +1,4 @@
-package com.aechkae.organizer.focus.schemas;
+package com.aechkae.organizer.database.schemas;
 
 import android.provider.BaseColumns;
 
@@ -12,7 +12,7 @@ public final class CompTaskTable implements BaseColumns {
 
     private static final String INDEX_NAME = "compT_index";
 
-    static String CREATE_TABLE(){
+    public static String CREATE_TABLE(){
         return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                 + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_CODE + " TEXT UNIQUE, " +
@@ -20,7 +20,7 @@ public final class CompTaskTable implements BaseColumns {
                 COL_COMP_DATE + " INTEGER)";
     }
 
-    static String CREATE_INDEX(){
+    public static String CREATE_INDEX(){
         return "CREATE UNIQUE INDEX IF NOT EXISTS " + INDEX_NAME + " ON " + TABLE_NAME +
                 " (" + COL_COMP_DATE + ", " +
                 COL_CODE + ")";

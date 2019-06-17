@@ -1,15 +1,19 @@
-package com.aechkae.organizer.focus.schemas;
+package com.aechkae.organizer.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class FocusDBHelper extends SQLiteOpenHelper{
+import com.aechkae.organizer.database.schemas.CompTaskTable;
+import com.aechkae.organizer.database.schemas.UncompTaskTable;
+
+
+public class OrgDBHelper extends SQLiteOpenHelper{
 
     private static final int DB_VERSION = 5;
     private static final String DB_NAME = "Organizer_Database";
 
-    public FocusDBHelper(Context context){
+    public OrgDBHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
     }
 

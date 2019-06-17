@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,18 +16,26 @@ import android.widget.Toast;
 import com.aechkae.organizer.focus.adapters.ActiveTaskRVAdapter;
 import com.aechkae.organizer.focus.adapters.BacklogTaskRVAdapter;
 import com.aechkae.organizer.focus.adapters.CompTaskRVAdapter;
-import com.aechkae.organizer.focus.schemas.Task.TaskType;
+import com.aechkae.organizer.focus.Task.TaskType;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActivityFocusBinding;
 import com.aechkae.organizer.notable.NotableActivity;
 import com.aechkae.organizer.reminder.ReminderActivity;
 import com.aechkae.organizer.timer.TimerActivity;
-import com.aechkae.organizer.focus.schemas.FocusDBAdapter;
+import com.aechkae.organizer.database.OrgDBAdapter;
+
+import java.util.List;
 
 public class FocusActivity extends AppCompatActivity {
 
     private ActivityFocusBinding activityFocusBinding;
-    private FocusDBAdapter db_adapter;
+    private OrgDBAdapter db_adapter;
+
+    private CompTaskRVAdapter comp_adapter = null;
+    private ActiveTaskRVAdapter active_adapter = null;
+    private BacklogTaskRVAdapter backlog_adapter = null;
+
+    private static final String TAG = "Focus_Activity";
 
     private boolean display_search = false;
 
@@ -35,7 +44,7 @@ public class FocusActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db_adapter = new FocusDBAdapter(this);  //TODO is this the proper context?
+        db_adapter = new OrgDBAdapter(this);  //TODO is this the proper context?
         db_adapter.openDB();
         activityFocusBinding= DataBindingUtil.setContentView(this, R.layout.activity_focus);
         //Toolbar and Navbar
@@ -54,7 +63,6 @@ public class FocusActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_reminder:
                     startActivity(new Intent(this, ReminderActivity.class));
-                    db_adapter.closeDB();
                     break;
                 case R.id.nav_timer:
                     startActivity(new Intent(this, TimerActivity.class));
@@ -62,7 +70,6 @@ public class FocusActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_notable:
                     startActivity(new Intent(this, NotableActivity.class));
-                    db_adapter.closeDB();
                     break;
                 default:
                     Toast.makeText(this, "Unknown nav item pressed", Toast.LENGTH_LONG)
@@ -140,10 +147,13 @@ public class FocusActivity extends AppCompatActivity {
         // Demarcate which tab is active
         activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
 
-        Cursor db_cursor = db_adapter.getAllUncompTaskOfType(TaskType.BACKLOG);
-        activityFocusBinding.displayedTaskList.setAdapter(new BacklogTaskRVAdapter(this, db_cursor, db_adapter));
+        List<UncompTask> backlogTasks = db_adapter.getAllUncompTaskOfType(TaskType.BACKLOG);
 
-//        db_cursor.close();
+        if(backlog_adapter == null)
+            backlog_adapter = new BacklogTaskRVAdapter(null, db_adapter);
+        backlog_adapter.setBacklogTasks(backlogTasks);
+
+        activityFocusBinding.displayedTaskList.setAdapter(backlog_adapter);
     }
 
     /**
@@ -152,23 +162,28 @@ public class FocusActivity extends AppCompatActivity {
      */
     private void showActiveTasks(){
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
-        Cursor db_cursor = db_adapter.getAllUncompTaskOfType(TaskType.ACTIVE);
+        List<UncompTask> activeTasks = db_adapter.getAllUncompTaskOfType(TaskType.ACTIVE);
 
-        activityFocusBinding.displayedTaskList.setAdapter(new ActiveTaskRVAdapter(this, db_cursor, db_adapter));
+        if(active_adapter == null)
+            active_adapter = new ActiveTaskRVAdapter(null, db_adapter);
+        active_adapter.setActiveTasks(activeTasks);
 
-        //TODO Display the back-burner tasks
+        activityFocusBinding.displayedTaskList.setAdapter(active_adapter);
 
-//        db_cursor.close();
+        //TODO Display the optional tasks
+
     }
 
     private void showCompletedTasks(){
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
 
-        Cursor db_cursor = db_adapter.getAllCompTask();
+        List<CompTask> compTasks = db_adapter.getAllCompTask();
 
-        activityFocusBinding.displayedTaskList.setAdapter(new CompTaskRVAdapter(db_cursor));
+        if(comp_adapter == null)
+            comp_adapter = new CompTaskRVAdapter(null);
+        comp_adapter.setCompTasks(compTasks);
 
-//        db_cursor.close();
+        activityFocusBinding.displayedTaskList.setAdapter(comp_adapter);
     }
 
     private void goToHowToUse(){

@@ -1,18 +1,16 @@
-package com.aechkae.organizer.focus.schemas;
+package com.aechkae.organizer.focus;
 
 /** Analogous POJO for tasks stored in the SQLite database. */
-public final class Task{
+public abstract class Task{
     public String idCode;
     public String description;
-    public double percentageDone;
 
     public static final int UNCOMP_DESC_CUTOFF_LENGTH = 16;
     public static final int COMP_DESC_CUTOFF_LENGTH = 32;
 
-    public Task(String id, String desc, double perc){
+    public Task(String id, String desc){
         idCode = id;
         description = desc;
-        percentageDone = perc;
     }
 
     public enum TaskType{

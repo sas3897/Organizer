@@ -9,15 +9,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aechkae.organizer.databinding.ActivityAddTaskBinding;
-import com.aechkae.organizer.focus.schemas.FocusDBHelper;
+import com.aechkae.organizer.database.OrgDBHelper;
 import com.aechkae.organizer.R;
-import com.aechkae.organizer.focus.schemas.Task;
 
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_CODE;
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_DESC;
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_PERC;
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.COL_TYPE;
-import static com.aechkae.organizer.focus.schemas.UncompTaskTable.TABLE_NAME;
+import static com.aechkae.organizer.database.schemas.UncompTaskTable.COL_CODE;
+import static com.aechkae.organizer.database.schemas.UncompTaskTable.COL_DESC;
+import static com.aechkae.organizer.database.schemas.UncompTaskTable.COL_PERC;
+import static com.aechkae.organizer.database.schemas.UncompTaskTable.COL_TYPE;
+import static com.aechkae.organizer.database.schemas.UncompTaskTable.TABLE_NAME;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -32,7 +31,7 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void saveToDB(View v){
-        SQLiteDatabase task_database = new FocusDBHelper(this).getWritableDatabase();
+        SQLiteDatabase task_database = new OrgDBHelper(this).getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COL_CODE, actBinding.idCodeEdit.getText().toString());
