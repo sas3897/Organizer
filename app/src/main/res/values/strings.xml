@@ -10,6 +10,8 @@
     <string name="nav_header_title">Organizer</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="cancel_action">Cancel</string>
+    <string name="confirm_deletion">Delete</string>
 
     <!-- Focus-specific strings -->
     <!-- Intra-module navigation -->
@@ -27,6 +29,7 @@
     <string name="focus_complete_task">Complete Task</string>
     <string name="focus_add_task">Add Task</string>
     <string name="focus_add_new_task">Add New Task</string>
+    <string name="focus_delete_task_prompt">Are you sure you want to delete?</string>
 
     <!-- Task attributes -->
     <string name="focus_id_code_hint">ID Code</string>

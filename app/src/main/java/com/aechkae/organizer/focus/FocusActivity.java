@@ -1,13 +1,11 @@
 package com.aechkae.organizer.focus;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +32,6 @@ public class FocusActivity extends AppCompatActivity {
     private CompTaskRVAdapter comp_adapter = null;
     private ActiveTaskRVAdapter active_adapter = null;
     private BacklogTaskRVAdapter backlog_adapter = null;
-
-    private static final String TAG = "Focus_Activity";
 
     private boolean display_search = false;
 
@@ -150,7 +146,7 @@ public class FocusActivity extends AppCompatActivity {
         List<UncompTask> backlogTasks = db_adapter.getAllUncompTaskOfType(TaskType.BACKLOG);
 
         if(backlog_adapter == null)
-            backlog_adapter = new BacklogTaskRVAdapter(null, db_adapter);
+            backlog_adapter = new BacklogTaskRVAdapter(null, db_adapter, this);
         backlog_adapter.setBacklogTasks(backlogTasks);
 
         activityFocusBinding.displayedTaskList.setAdapter(backlog_adapter);
@@ -165,7 +161,7 @@ public class FocusActivity extends AppCompatActivity {
         List<UncompTask> activeTasks = db_adapter.getAllUncompTaskOfType(TaskType.ACTIVE);
 
         if(active_adapter == null)
-            active_adapter = new ActiveTaskRVAdapter(null, db_adapter);
+            active_adapter = new ActiveTaskRVAdapter(null, db_adapter, this);
         active_adapter.setActiveTasks(activeTasks);
 
         activityFocusBinding.displayedTaskList.setAdapter(active_adapter);
