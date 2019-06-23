@@ -16,7 +16,6 @@ import com.aechkae.organizer.focus.view_holders.BacklogTaskViewHolder;
 
 import java.util.List;
 
-import static com.aechkae.organizer.focus.Task.UNCOMP_DESC_CUTOFF_LENGTH;
 
 public class BacklogTaskRVAdapter extends RecyclerView.Adapter<BacklogTaskViewHolder>{
     private OrgDBAdapter db_adapter;
@@ -44,12 +43,7 @@ public class BacklogTaskRVAdapter extends RecyclerView.Adapter<BacklogTaskViewHo
         UncompTask vhTask = backlogTasks.get(position);
 
         vhBinding.taskCode.setText(vhTask.idCode);
-        if(vhTask.description.length() > UNCOMP_DESC_CUTOFF_LENGTH){
-            vhBinding.taskDesc.setText(vhTask.description.substring(0, UNCOMP_DESC_CUTOFF_LENGTH));
-        }
-        else{
-            vhBinding.taskDesc.setText(vhTask.description);
-        }
+        vhBinding.taskDesc.setText(vhTask.description);
         vhBinding.taskPercDone.setText(vhTask.perc_done);
 
         //Remove task from DB

@@ -12,8 +12,6 @@ import com.aechkae.organizer.focus.view_holders.CompTaskViewHolder;
 
 import java.util.List;
 
-import static com.aechkae.organizer.focus.Task.COMP_DESC_CUTOFF_LENGTH;
-
 public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskViewHolder> {
     private List<CompTask> compTasks;
 
@@ -36,15 +34,7 @@ public class CompTaskRVAdapter extends RecyclerView.Adapter<CompTaskViewHolder> 
         CompTask vhTask = compTasks.get(position);
 
         vhBinding.compTaskCode.setText(vhTask.idCode);
-
-        // TODO this is bad and should occur automatically
-        if(vhTask.description.length() > COMP_DESC_CUTOFF_LENGTH){
-            vhBinding.compTaskDesc.setText(vhTask.description.substring(0, COMP_DESC_CUTOFF_LENGTH));
-        }
-        else{
-            vhBinding.compTaskDesc.setText(vhTask.description);
-        }
-
+        vhBinding.compTaskDesc.setText(vhTask.description);
         vhBinding.dateTaskComp.setText(vhTask.compDate);
     }
 

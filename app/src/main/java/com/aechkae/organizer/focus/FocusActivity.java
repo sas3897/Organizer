@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,6 +77,11 @@ public class FocusActivity extends AppCompatActivity {
         });
 
         //RecyclerView attributes
+        activityFocusBinding.displayedTaskList.addItemDecoration(
+                new DividerItemDecoration(
+                        activityFocusBinding.displayedTaskList.getContext(),
+                        DividerItemDecoration.VERTICAL)
+        );
         activityFocusBinding.displayedTaskList.setLayoutManager(new LinearLayoutManager(this));
 
         showActiveTasks();

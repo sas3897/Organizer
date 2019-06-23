@@ -1,7 +1,6 @@
 package com.aechkae.organizer.focus.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,7 +17,6 @@ import com.aechkae.organizer.focus.view_holders.ActiveTaskViewHolder;
 
 import java.util.List;
 
-import static com.aechkae.organizer.focus.Task.UNCOMP_DESC_CUTOFF_LENGTH;
 
 public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHolder>{
     private OrgDBAdapter db_adapter;
@@ -48,12 +46,7 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
         UncompTask vhTask = activeTasks.get(position);
 
         vhBinding.activeTaskCode.setText(vhTask.idCode);
-        if(vhTask.description.length() > UNCOMP_DESC_CUTOFF_LENGTH){
-            vhBinding.activeTaskDesc.setText(vhTask.description.substring(0, UNCOMP_DESC_CUTOFF_LENGTH));
-        }
-        else{
-            vhBinding.activeTaskDesc.setText(vhTask.description);
-        }
+        vhBinding.activeTaskDesc.setText(vhTask.description);
         vhBinding.activeTaskPercDone.setText(vhTask.perc_done);
 
 

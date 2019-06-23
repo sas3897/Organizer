@@ -5,9 +5,6 @@ public abstract class Task{
     public String idCode;
     public String description;
 
-    public static final int UNCOMP_DESC_CUTOFF_LENGTH = 16;
-    public static final int COMP_DESC_CUTOFF_LENGTH = 32;
-
     public Task(String id, String desc){
         idCode = id;
         description = desc;
