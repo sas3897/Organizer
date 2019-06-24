@@ -45,9 +45,9 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
         ActiveTaskItemBinding vhBinding = holder.getActiveTaskItemBinding();
         UncompTask vhTask = activeTasks.get(position);
 
-        vhBinding.activeTaskCode.setText(vhTask.idCode);
-        vhBinding.activeTaskDesc.setText(vhTask.description);
-        vhBinding.activeTaskPercDone.setText(vhTask.perc_done);
+        vhBinding.taskInfo.taskCode.setText(vhTask.idCode);
+        vhBinding.taskInfo.taskDesc.setText(vhTask.description);
+        vhBinding.taskInfo.taskPercDone.setText(vhTask.perc_done);
 
 
         //Remove task from DB
@@ -59,7 +59,7 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
             builder.setPositiveButton(R.string.confirm_deletion, (dialog, id) -> {
                 //TODO update
                 db_adapter.deleteTask(
-                        new String[]{vhBinding.activeTaskCode.getText().toString()});
+                        new String[]{vhBinding.taskInfo.taskCode.getText().toString()});
                 activeTasks.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
             });
@@ -73,7 +73,7 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
         vhBinding.activeMvBacklogBtn.setOnClickListener((view) -> {
             Log.d(TAG, "pre-move");
             db_adapter.moveTask(
-                    new String[]{vhBinding.activeTaskCode.getText().toString()}, TaskType.BACKLOG);
+                    new String[]{vhBinding.taskInfo.taskCode.getText().toString()}, TaskType.BACKLOG);
             activeTasks.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
         });
@@ -81,8 +81,8 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
         //Complete task
         vhBinding.completeTaskBtn.setOnClickListener((view) -> {
             db_adapter.completeTask(
-                    vhBinding.activeTaskCode.getText().toString(),
-                    vhBinding.activeTaskDesc.getText().toString()
+                    vhBinding.taskInfo.taskCode.getText().toString(),
+                    vhBinding.taskInfo.taskDesc.getText().toString()
             );
 
             activeTasks.remove(holder.getAdapterPosition());

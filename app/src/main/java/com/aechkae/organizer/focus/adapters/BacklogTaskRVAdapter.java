@@ -42,9 +42,9 @@ public class BacklogTaskRVAdapter extends RecyclerView.Adapter<BacklogTaskViewHo
         BacklogTaskItemBinding vhBinding = holder.getBacklogTaskBinding();
         UncompTask vhTask = backlogTasks.get(position);
 
-        vhBinding.taskCode.setText(vhTask.idCode);
-        vhBinding.taskDesc.setText(vhTask.description);
-        vhBinding.taskPercDone.setText(vhTask.perc_done);
+        vhBinding.taskInfo.taskCode.setText(vhTask.idCode);
+        vhBinding.taskInfo.taskDesc.setText(vhTask.description);
+        vhBinding.taskInfo.taskPercDone.setText(vhTask.perc_done);
 
         //Remove task from DB
         vhBinding.backlogDeleteBtn.setOnClickListener((view) -> {
@@ -54,7 +54,7 @@ public class BacklogTaskRVAdapter extends RecyclerView.Adapter<BacklogTaskViewHo
             builder.setNegativeButton(R.string.cancel_action, (dialog, id) -> {});
             builder.setPositiveButton(R.string.confirm_deletion, (dialog, id) -> {
                 db_adapter.deleteTask(
-                        new String[]{vhBinding.taskCode.getText().toString()});
+                        new String[]{vhBinding.taskInfo.taskCode.getText().toString()});
                 backlogTasks.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
             });
@@ -66,7 +66,7 @@ public class BacklogTaskRVAdapter extends RecyclerView.Adapter<BacklogTaskViewHo
         //Move to active
         vhBinding.backlogMvActiveBtn.setOnClickListener((view) -> {
             db_adapter.moveTask(
-                    new String[]{vhBinding.taskCode.getText().toString()}, TaskType.ACTIVE);
+                    new String[]{vhBinding.taskInfo.taskCode.getText().toString()}, TaskType.PRIORITY);
             backlogTasks.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
         });

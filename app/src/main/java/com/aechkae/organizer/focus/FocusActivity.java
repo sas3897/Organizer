@@ -46,7 +46,6 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding= DataBindingUtil.setContentView(this, R.layout.activity_focus);
         //Toolbar and Navbar
         setSupportActionBar(findViewById(R.id.focus_toolbar));
-        getSupportActionBar().setTitle(R.string.module2_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
@@ -146,7 +145,8 @@ public class FocusActivity extends AppCompatActivity {
     }
 
     private void showBacklog(){
-        // Demarcate which tab is active
+        getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Backlog");
+
         activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
 
         List<UncompTask> backlogTasks = db_adapter.getAllUncompTaskOfType(TaskType.BACKLOG);
@@ -163,8 +163,10 @@ public class FocusActivity extends AppCompatActivity {
      * table,
      */
     private void showActiveTasks(){
+        getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Priority & Optional");
+
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
-        List<UncompTask> activeTasks = db_adapter.getAllUncompTaskOfType(TaskType.ACTIVE);
+        List<UncompTask> activeTasks = db_adapter.getAllUncompTaskOfType(TaskType.PRIORITY);
 
         if(active_adapter == null)
             active_adapter = new ActiveTaskRVAdapter(null, db_adapter, this);
@@ -177,6 +179,8 @@ public class FocusActivity extends AppCompatActivity {
     }
 
     private void showCompletedTasks(){
+        getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Completed");
+
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
 
         List<CompTask> compTasks = db_adapter.getAllCompTask();

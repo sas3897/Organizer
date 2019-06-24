@@ -11,8 +11,8 @@ public abstract class Task{
     }
 
     public enum TaskType{
-        ACTIVE(0),
-        BACKBURNER(1),
+        PRIORITY(0),
+        OPTIONAL(1),
         BACKLOG(2);
 
         private int db_flag;
