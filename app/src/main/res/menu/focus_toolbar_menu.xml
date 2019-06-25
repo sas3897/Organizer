@@ -11,20 +11,6 @@
     />
 
     <!-- Options shown in overflow menu to navigate around Focus module -->
-    <!-- Go to Active -->
-    <item android:id="@+id/active_tasks_item"
-        android:title="@string/focus_active_item"
-        app:showAsAction="never"/>
-
-    <!-- Go to Backlog -->
-    <item android:id="@+id/backlog_tasks_item"
-        android:title="@string/focus_backlog_item"
-        app:showAsAction="never"/>
-
-    <!-- Go to Completed -->
-    <item android:id="@+id/completed_tasks_item"
-        android:title="@string/focus_completed_item"
-        app:showAsAction="never"/>
 
     <!-- Go to About/Explanation -->
     <item android:id="@+id/focus_how_to_use"

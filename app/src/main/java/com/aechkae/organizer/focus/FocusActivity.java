@@ -2,13 +2,17 @@ package com.aechkae.organizer.focus;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,14 +31,22 @@ import java.util.List;
 
 public class FocusActivity extends AppCompatActivity {
 
+    private enum TaskPage{
+        ACTIVE,
+        BACKLOG,
+        COMPLETED
+    }
+
     private ActivityFocusBinding activityFocusBinding;
     private OrgDBAdapter db_adapter;
+    private GestureDetectorCompat mDetector;
 
     private CompTaskRVAdapter comp_adapter = null;
     private ActiveTaskRVAdapter active_adapter = null;
     private BacklogTaskRVAdapter backlog_adapter = null;
 
     private boolean display_search = false;
+    private TaskPage curr_page;
 
     //TODO Need to show which 'sprint' we're in, and maybe a prompt to choose for that
 
@@ -43,7 +55,11 @@ public class FocusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db_adapter = new OrgDBAdapter(this);  //TODO is this the proper context?
         db_adapter.openDB();
-        activityFocusBinding= DataBindingUtil.setContentView(this, R.layout.activity_focus);
+        activityFocusBinding = DataBindingUtil.setContentView(this, R.layout.activity_focus);
+        mDetector = new GestureDetectorCompat(this, new pageGestureListener());
+        curr_page = TaskPage.ACTIVE;
+        activityFocusBinding.displayedTaskList.setOnTouchListener( (view, motion) -> mDetector.onTouchEvent(motion));
+
         //Toolbar and Navbar
         setSupportActionBar(findViewById(R.id.focus_toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,31 +112,14 @@ public class FocusActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.active_tasks_item:
-                display_search = false;
-                invalidateOptionsMenu();
-                showActiveTasks();
-                return true;
-            case R.id.backlog_tasks_item:
-                display_search = true;
-                invalidateOptionsMenu();
-                showBacklog();
-                return true;
-            case R.id.completed_tasks_item:
-                display_search = true;
-                invalidateOptionsMenu();
-                showCompletedTasks();
-                return true;
             case R.id.focus_how_to_use:
                 display_search = false;
-                invalidateOptionsMenu();
                 goToHowToUse();
                 return true;
             case R.id.focus_settings_item:
                 Toast.makeText(this, "Focus Settings item selected", Toast.LENGTH_LONG)
                         .show();
                 display_search = false;
-                invalidateOptionsMenu();
                 return true;
             case R.id.focus_search:
                 Toast.makeText(this, "Focus Search item selected", Toast.LENGTH_LONG)
@@ -146,6 +145,8 @@ public class FocusActivity extends AppCompatActivity {
 
     private void showBacklog(){
         getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Backlog");
+        display_search = true;
+        invalidateOptionsMenu();
 
         activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
 
@@ -164,6 +165,8 @@ public class FocusActivity extends AppCompatActivity {
      */
     private void showActiveTasks(){
         getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Priority & Optional");
+        display_search = false;
+        invalidateOptionsMenu();
 
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
         List<UncompTask> activeTasks = db_adapter.getAllUncompTaskOfType(TaskType.PRIORITY);
@@ -175,11 +178,12 @@ public class FocusActivity extends AppCompatActivity {
         activityFocusBinding.displayedTaskList.setAdapter(active_adapter);
 
         //TODO Display the optional tasks
-
     }
 
     private void showCompletedTasks(){
         getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Completed");
+        display_search = true;
+        invalidateOptionsMenu();
 
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
 
@@ -198,5 +202,60 @@ public class FocusActivity extends AppCompatActivity {
 
     public void goToTaskCreationPage(View v){
         startActivity(new Intent(this, AddTaskActivity.class));
+    }
+
+
+    // Stupid bullshit like this makes me dislike Android coding severely
+    class pageGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private String TAG = "dumb_android_bullshit";
+
+        @Override
+        public boolean onDown(MotionEvent event) {
+            Log.d(TAG,"onDown: ");
+
+            // don't return false here or else none of the other
+            // gestures will work
+            return true;
+        }
+
+
+//        @Override
+//        public boolean onScroll(MotionEvent e1, MotionEvent e2,
+//                                float distanceX, float distanceY) {
+//            Log.i(TAG, "onScroll: ");
+//            return true;
+//        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2,
+                               float velocityX, float velocityY) {
+            Log.d(TAG, "onFling: " + velocityX + ", " + velocityY);
+            switch (curr_page){
+                case ACTIVE:
+                    if (velocityX <= -3000){
+                        showBacklog();
+                        curr_page = TaskPage.BACKLOG;
+                    }
+                    break;
+                case BACKLOG:
+                    if (velocityX >= 3000){
+                        showActiveTasks();
+                        curr_page = TaskPage.ACTIVE;
+                    }
+                    else if(velocityX <= -3000){
+                        showCompletedTasks();
+                        curr_page = TaskPage.COMPLETED;
+                    }
+                    break;
+                case COMPLETED:
+                    if(velocityX >= 3000){
+                        showBacklog();
+                        curr_page = TaskPage.BACKLOG;
+                    }
+                    break;
+            }
+
+            return true;
+        }
     }
 }
