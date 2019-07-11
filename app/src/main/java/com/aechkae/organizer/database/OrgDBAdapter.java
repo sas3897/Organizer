@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.database.schemas.CompTaskTable;
@@ -27,6 +28,7 @@ import static com.aechkae.organizer.database.schemas.UncompTaskTable.COL_TYPE;
 
 
 public class OrgDBAdapter {
+    private String TAG = "OrgDBAdapter";
     private Context context;
     private SQLiteDatabase db;
     private OrgDBHelper dbHelper;
@@ -130,6 +132,33 @@ public class OrgDBAdapter {
                 UncompTaskTable.TABLE_NAME,
                 COL_CODE + "= ?",
                 taskCode);
+    }
+
+    public void clearTasks(Schema table, boolean partial, String [] cond){
+
+        if(partial){
+            if (cond == null) Log.e(TAG, "clearTasks: No condition given for partial clear");
+            switch (table){
+                case UNCOMP_TASKS:
+                    db.delete(table.getTable_name(),
+                            COL_TYPE + "= ?",
+                            cond);
+                    break;
+                case COMP_TASKS: // Only here to silence IDE; remove once we have another partial
+                default:
+                    Log.e(TAG, "clearTasks: no partial clearing behavior for " + table.getTable_name());
+            }
+        }
+        else {
+            switch (table) {
+                case COMP_TASKS:
+                case UNCOMP_TASKS:
+                    db.delete(table.getTable_name(), null, null);
+                    break;
+                default:
+                    Log.e(TAG, "clearTasks: no behavior for " + table.getTable_name());
+            }
+        }
     }
 
     public void moveTask(String[] taskCode, TaskType ty){

@@ -4,14 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:id="@+id/uncomp_task_info"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:orientation="vertical"
         >
         <TextView
             android:id="@+id/task_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="14sp"
             tools:text="Test_id"/>
         <TextView
             android:id="@+id/task_desc"
@@ -25,6 +27,7 @@
             android:id="@+id/task_perc_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="italic"
             app:layout_constraintTop_toBottomOf="@id/task_desc"
             tools:text="20%"/>
     </LinearLayout>

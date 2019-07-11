@@ -20,6 +20,8 @@
     <string name="focus_backlog_item">Task Backlog</string>
     <string name="focus_completed_item">Completed Tasks</string>
     <string name="focus_how_to_use">How to Use</string>
+    <string name="focus_search_tasks">Search Tasks</string>
+    <string name="focus_clear_tasks">Delete All</string>
 
     <!-- Task actions -->
     <string name="focus_move_to_active">Move To Active</string>
@@ -30,6 +32,7 @@
     <string name="focus_add_task">Add Task</string>
     <string name="focus_add_new_task">Add New Task</string>
     <string name="focus_delete_task_prompt">Are you sure you want to delete?</string>
+    <string name="focus_clear_tasks_prompt">Are you sure you want to clear all displayed tasks?</string>
 
     <!-- Task attributes -->
     <string name="focus_id_code_hint">ID Code</string>

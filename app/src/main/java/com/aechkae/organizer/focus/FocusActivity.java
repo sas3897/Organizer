@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.aechkae.organizer.database.Schema;
 import com.aechkae.organizer.focus.adapters.ActiveTaskRVAdapter;
 import com.aechkae.organizer.focus.adapters.BacklogTaskRVAdapter;
 import com.aechkae.organizer.focus.adapters.CompTaskRVAdapter;
@@ -27,25 +29,36 @@ import com.aechkae.organizer.reminder.ReminderActivity;
 import com.aechkae.organizer.timer.TimerActivity;
 import com.aechkae.organizer.database.OrgDBAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FocusActivity extends AppCompatActivity {
 
-    private enum TaskPage{
-        ACTIVE,
-        BACKLOG,
-        COMPLETED
+    public enum TaskPage{
+        ACTIVE(Schema.UNCOMP_TASKS),
+        BACKLOG(Schema.UNCOMP_TASKS),
+        COMPLETED(Schema.COMP_TASKS);
+
+        private Schema assoc_table;
+        TaskPage(Schema table){
+            assoc_table = table;
+        }
+
+        public Schema getAssoc_table() {
+            return assoc_table;
+        }
     }
 
     private ActivityFocusBinding activityFocusBinding;
     private OrgDBAdapter db_adapter;
     private GestureDetectorCompat mDetector;
 
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> task_adapter;
     private CompTaskRVAdapter comp_adapter = null;
     private ActiveTaskRVAdapter active_adapter = null;
     private BacklogTaskRVAdapter backlog_adapter = null;
 
-    private boolean display_search = false;
+    private boolean searchable_and_clearable = false;
     private TaskPage curr_page;
 
     //TODO Need to show which 'sprint' we're in, and maybe a prompt to choose for that
@@ -112,18 +125,35 @@ public class FocusActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.focus_how_to_use:
-                display_search = false;
-                goToHowToUse();
-                return true;
-            case R.id.focus_settings_item:
-                Toast.makeText(this, "Focus Settings item selected", Toast.LENGTH_LONG)
-                        .show();
-                display_search = false;
-                return true;
             case R.id.focus_search:
                 Toast.makeText(this, "Focus Search item selected", Toast.LENGTH_LONG)
                         .show();
+                return true;
+            case R.id.delete_all:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.focus_clear_tasks_prompt);
+                builder.setCancelable(false);
+                builder.setNegativeButton(R.string.cancel_action, (dialog, id) -> {});
+                builder.setPositiveButton(R.string.confirm_deletion, (dialog, id) -> {
+                    // Due to DB architecture this is currently worse named than it should be
+                    switch(curr_page){
+                        case BACKLOG:
+                            db_adapter.clearTasks(curr_page.getAssoc_table(), true,
+                                    new String[]{""+TaskType.BACKLOG.getDb_flag()});
+                            backlog_adapter.setBacklogTasks(new ArrayList<>());
+                            backlog_adapter.notifyDataSetChanged();
+                            break;
+                        case COMPLETED:
+                            db_adapter.clearTasks(curr_page.getAssoc_table(), false, null);
+                            comp_adapter.setCompTasks(new ArrayList<>());
+                            comp_adapter.notifyDataSetChanged();
+                            break;
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+
                 return true;
             //Module navigation menu button
             case android.R.id.home:
@@ -139,13 +169,14 @@ public class FocusActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         //Hide the search icon if necessary
-        menu.findItem(R.id.focus_search).setVisible(display_search);
+        menu.findItem(R.id.focus_search).setVisible(searchable_and_clearable);
+        menu.findItem(R.id.delete_all).setVisible(searchable_and_clearable);
         return super.onPrepareOptionsMenu(menu);
     }
 
     private void showBacklog(){
         getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Backlog");
-        display_search = true;
+        searchable_and_clearable = true;
         invalidateOptionsMenu();
 
         activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
@@ -165,7 +196,7 @@ public class FocusActivity extends AppCompatActivity {
      */
     private void showActiveTasks(){
         getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Priority & Optional");
-        display_search = false;
+        searchable_and_clearable = false;
         invalidateOptionsMenu();
 
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
@@ -182,7 +213,7 @@ public class FocusActivity extends AppCompatActivity {
 
     private void showCompletedTasks(){
         getSupportActionBar().setTitle(getString(R.string.module2_name) + " - Completed");
-        display_search = true;
+        searchable_and_clearable = true;
         invalidateOptionsMenu();
 
         activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
@@ -207,29 +238,15 @@ public class FocusActivity extends AppCompatActivity {
 
     // Stupid bullshit like this makes me dislike Android coding severely
     class pageGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private String TAG = "dumb_android_bullshit";
-
         @Override
         public boolean onDown(MotionEvent event) {
-            Log.d(TAG,"onDown: ");
-
-            // don't return false here or else none of the other
-            // gestures will work
             return true;
         }
-
-
-//        @Override
-//        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-//                                float distanceX, float distanceY) {
-//            Log.i(TAG, "onScroll: ");
-//            return true;
-//        }
 
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2,
                                float velocityX, float velocityY) {
-            Log.d(TAG, "onFling: " + velocityX + ", " + velocityY);
+            if (Math.abs(velocityY) > 3000) return true; // Don't move while scrolling, please
             switch (curr_page){
                 case ACTIVE:
                     if (velocityX <= -3000){

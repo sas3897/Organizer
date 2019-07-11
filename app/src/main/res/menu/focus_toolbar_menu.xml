@@ -5,20 +5,17 @@
     <item
         android:id="@+id/focus_search"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/focus_how_to_use"
+        android:title="@string/focus_search_tasks"
+        android:visible="false"
+        app:showAsAction="ifRoom"
+    />
+    <item
+        android:id="@+id/delete_all"
+        android:icon="@drawable/ic_delete_forever_black_24dp"
+        android:title="@string/focus_clear_tasks"
         android:visible="false"
         app:showAsAction="ifRoom"
     />
 
-    <!-- Options shown in overflow menu to navigate around Focus module -->
 
-    <!-- Go to About/Explanation -->
-    <item android:id="@+id/focus_how_to_use"
-        android:title="@string/focus_how_to_use"
-        app:showAsAction="never"/>
-
-    <!-- Go to Settings (Focus) -->
-    <item android:id="@+id/focus_settings_item"
-        android:title="@string/focus_settings_item"
-        app:showAsAction="never"/>
 </menu>
