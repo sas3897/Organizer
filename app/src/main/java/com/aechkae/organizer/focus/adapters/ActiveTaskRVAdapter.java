@@ -23,8 +23,6 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
     private Context mContext;
     private List<UncompTask> activeTasks;
 
-    String TAG = "t";
-
     public ActiveTaskRVAdapter(List<UncompTask> tasks, OrgDBAdapter db_adapter, Context context){
         activeTasks = tasks;
         this.db_adapter = db_adapter;
@@ -71,7 +69,6 @@ public class ActiveTaskRVAdapter extends RecyclerView.Adapter<ActiveTaskViewHold
 
         //Move to backlog
         vhBinding.activeMvBacklogBtn.setOnClickListener((view) -> {
-            Log.d(TAG, "pre-move");
             db_adapter.moveTask(
                     new String[]{vhBinding.taskInfo.taskCode.getText().toString()}, TaskType.BACKLOG);
             activeTasks.remove(holder.getAdapterPosition());

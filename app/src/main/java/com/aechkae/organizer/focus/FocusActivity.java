@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.aechkae.organizer.checker.CheckerActivity;
 import com.aechkae.organizer.database.Schema;
 import com.aechkae.organizer.focus.adapters.ActiveTaskRVAdapter;
 import com.aechkae.organizer.focus.adapters.BacklogTaskRVAdapter;
@@ -24,10 +25,10 @@ import com.aechkae.organizer.focus.adapters.CompTaskRVAdapter;
 import com.aechkae.organizer.focus.Task.TaskType;
 import com.aechkae.organizer.R;
 import com.aechkae.organizer.databinding.ActivityFocusBinding;
+import com.aechkae.organizer.database.OrgDBAdapter;
 import com.aechkae.organizer.notable.NotableActivity;
 import com.aechkae.organizer.reminder.ReminderActivity;
 import com.aechkae.organizer.timer.TimerActivity;
-import com.aechkae.organizer.database.OrgDBAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class FocusActivity extends AppCompatActivity {
         }
     }
 
-    private ActivityFocusBinding activityFocusBinding;
+    private ActivityFocusBinding focusBinding;
     private OrgDBAdapter db_adapter;
     private GestureDetectorCompat mDetector;
 
@@ -68,19 +69,19 @@ public class FocusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db_adapter = new OrgDBAdapter(this);  //TODO is this the proper context?
         db_adapter.openDB();
-        activityFocusBinding = DataBindingUtil.setContentView(this, R.layout.activity_focus);
+        focusBinding = DataBindingUtil.setContentView(this, R.layout.activity_focus);
         mDetector = new GestureDetectorCompat(this, new pageGestureListener());
         curr_page = TaskPage.ACTIVE;
-        activityFocusBinding.displayedTaskList.setOnTouchListener( (view, motion) -> mDetector.onTouchEvent(motion));
+        focusBinding.displayedTaskList.setOnTouchListener( (view, motion) -> mDetector.onTouchEvent(motion));
 
         //Toolbar and Navbar
-        setSupportActionBar(findViewById(R.id.focus_toolbar));
+        setSupportActionBar(findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        activityFocusBinding.focusNavBar.setNavigationItemSelectedListener((menuItem) -> {
+        focusBinding.navBar.setNavigationItemSelectedListener((menuItem) -> {
             menuItem.setChecked(true);
-            activityFocusBinding.focusDrawer.closeDrawers();
+            focusBinding.drawer.closeDrawers();
 
             //Swap the present activity
             switch(menuItem.getItemId()){
@@ -96,6 +97,9 @@ public class FocusActivity extends AppCompatActivity {
                 case R.id.nav_notable:
                     startActivity(new Intent(this, NotableActivity.class));
                     break;
+                case R.id.nav_checker:
+                    startActivity(new Intent(this, CheckerActivity.class));
+                    break;
                 default:
                     Toast.makeText(this, "Unknown nav item pressed", Toast.LENGTH_LONG)
                             .show();
@@ -105,12 +109,12 @@ public class FocusActivity extends AppCompatActivity {
         });
 
         //RecyclerView attributes
-        activityFocusBinding.displayedTaskList.addItemDecoration(
+        focusBinding.displayedTaskList.addItemDecoration(
                 new DividerItemDecoration(
-                        activityFocusBinding.displayedTaskList.getContext(),
+                        focusBinding.displayedTaskList.getContext(),
                         DividerItemDecoration.VERTICAL)
         );
-        activityFocusBinding.displayedTaskList.setLayoutManager(new LinearLayoutManager(this));
+        focusBinding.displayedTaskList.setLayoutManager(new LinearLayoutManager(this));
 
         showActiveTasks();
     }
@@ -157,12 +161,21 @@ public class FocusActivity extends AppCompatActivity {
                 return true;
             //Module navigation menu button
             case android.R.id.home:
-                activityFocusBinding.focusDrawer.openDrawer(GravityCompat.START);
+                focusBinding.drawer.openDrawer(GravityCompat.START);
                 return true;
             default:
                 Toast.makeText(this, "Some item was pressed that this doesn't handle.", Toast.LENGTH_LONG)
                         .show();
                 return true;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (focusBinding.drawer.isDrawerOpen(GravityCompat.START)) {
+            focusBinding.drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -179,7 +192,7 @@ public class FocusActivity extends AppCompatActivity {
         searchable_and_clearable = true;
         invalidateOptionsMenu();
 
-        activityFocusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
+        focusBinding.addNewTaskBtn.setVisibility(View.VISIBLE);
 
         List<UncompTask> backlogTasks = db_adapter.getAllUncompTaskOfType(TaskType.BACKLOG);
 
@@ -187,7 +200,7 @@ public class FocusActivity extends AppCompatActivity {
             backlog_adapter = new BacklogTaskRVAdapter(null, db_adapter, this);
         backlog_adapter.setBacklogTasks(backlogTasks);
 
-        activityFocusBinding.displayedTaskList.setAdapter(backlog_adapter);
+        focusBinding.displayedTaskList.setAdapter(backlog_adapter);
     }
 
     /**
@@ -199,14 +212,14 @@ public class FocusActivity extends AppCompatActivity {
         searchable_and_clearable = false;
         invalidateOptionsMenu();
 
-        activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
+        focusBinding.addNewTaskBtn.setVisibility(View.GONE);
         List<UncompTask> activeTasks = db_adapter.getAllUncompTaskOfType(TaskType.PRIORITY);
 
         if(active_adapter == null)
             active_adapter = new ActiveTaskRVAdapter(null, db_adapter, this);
         active_adapter.setActiveTasks(activeTasks);
 
-        activityFocusBinding.displayedTaskList.setAdapter(active_adapter);
+        focusBinding.displayedTaskList.setAdapter(active_adapter);
 
         //TODO Display the optional tasks
     }
@@ -216,7 +229,7 @@ public class FocusActivity extends AppCompatActivity {
         searchable_and_clearable = true;
         invalidateOptionsMenu();
 
-        activityFocusBinding.addNewTaskBtn.setVisibility(View.GONE);
+        focusBinding.addNewTaskBtn.setVisibility(View.GONE);
 
         List<CompTask> compTasks = db_adapter.getAllCompTask();
 
@@ -224,14 +237,14 @@ public class FocusActivity extends AppCompatActivity {
             comp_adapter = new CompTaskRVAdapter(null);
         comp_adapter.setCompTasks(compTasks);
 
-        activityFocusBinding.displayedTaskList.setAdapter(comp_adapter);
+        focusBinding.displayedTaskList.setAdapter(comp_adapter);
     }
 
     private void goToHowToUse(){
         startActivity(new Intent(this, HowToUseActivity.class));
     }
 
-    public void goToTaskCreationPage(View v){
+    public void createNewTask(View v){
         startActivity(new Intent(this, AddTaskActivity.class));
     }
 
@@ -246,7 +259,6 @@ public class FocusActivity extends AppCompatActivity {
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2,
                                float velocityX, float velocityY) {
-            if (Math.abs(velocityY) > 3000) return true; // Don't move while scrolling, please
             switch (curr_page){
                 case ACTIVE:
                     if (velocityX <= -3000){

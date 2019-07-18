@@ -4,18 +4,30 @@
         <item
             android:id="@+id/nav_reminder"
             android:title="@string/module1_name"
-            android:icon="@drawable/ic_search_black_24dp" />
+            android:icon="@drawable/calendar_icon_24dp" />
         <item
             android:id="@+id/nav_focus"
             android:title="@string/module2_name"
             android:icon="@drawable/ic_search_black_24dp" />
         <item
-            android:id="@+id/nav_timer"
-            android:title="@string/module3_name"
-            android:icon="@drawable/ic_search_black_24dp" />
-        <item
             android:id="@+id/nav_notable"
+            android:title="@string/module3_name"
+            android:icon="@drawable/notepad_icon_24dp" />
+        <item
+            android:id="@+id/nav_timer"
             android:title="@string/module4_name"
-            android:icon="@drawable/ic_search_black_24dp"/>
+            android:icon="@drawable/ic_timer_black_24dp"/>
+        <item
+            android:id="@+id/nav_checker"
+            android:title="@string/module5_name"
+            android:icon="@drawable/checklist_icon_24dp"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/app_settings"
+            android:icon="@drawable/ic_settings_black_24dp"/>
+        <item
+            android:id="@+id/nav_usage"
+            android:title="@string/app_usage"
+            android:icon="@drawable/ic_help_outline_black_24dp"/>
     </group>
 </menu>

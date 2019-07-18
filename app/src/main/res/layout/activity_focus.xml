@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v4.widget.DrawerLayout
-        android:id="@+id/focus_drawer"
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
         <android.support.constraint.ConstraintLayout
             android:id="@+id/focus_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.aechkae.organizer.focus.FocusActivity">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/focus_toolbar" />
+            <include layout="@layout/toolbar" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/displayed_task_list"
@@ -23,7 +21,7 @@
                 android:layout_marginBottom="54dp"
 
                 app:layout_constraintBottom_toTopOf="@id/add_new_task_btn"
-                app:layout_constraintTop_toBottomOf="@id/focus_toolbar">
+                app:layout_constraintTop_toBottomOf="@id/toolbar">
             </android.support.v7.widget.RecyclerView>
 
             <Button
@@ -35,18 +33,20 @@
                 android:visibility="gone"
 
                 android:text="@string/focus_add_new_task"
-                android:onClick="goToTaskCreationPage" />
+                android:onClick="createNewTask" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.NavigationView
-            android:id="@+id/focus_nav_bar"
+            android:id="@+id/nav_bar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:menu="@menu/nav_drawer_menu"
             app:headerLayout="@layout/nav_bar_header"
+
+            app:menu="@menu/nav_drawer_menu"
             app:itemTextColor="@color/nav_bar_color_selector"
-            />
+            >
+        </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
 </layout>

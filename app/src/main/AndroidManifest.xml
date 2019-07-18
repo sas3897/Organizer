@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".focus.FocusActivity">
+        <activity android:name=".checker.CheckerActivity" android:noHistory="true"/>
+        <activity android:name=".focus.FocusActivity" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,11 +18,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".focus.SettingsActivity" />
-        <activity android:name=".timer.TimerActivity" />
-        <activity android:name=".focus.AddTaskActivity" android:noHistory="true"/>
-        <activity android:name=".reminder.ReminderActivity" />
+        <activity android:name=".timer.TimerActivity" android:noHistory="true"/>
+        <activity
+            android:name=".focus.AddTaskActivity"
+            android:noHistory="true" />
+        <activity android:name=".reminder.ReminderActivity" android:noHistory="true"/>
         <activity android:name=".focus.HowToUseActivity" />
-        <activity android:name=".notable.NotableActivity"/>
+        <activity android:name=".notable.NotableActivity" android:noHistory="true"/>
     </application>
 
 </manifest>

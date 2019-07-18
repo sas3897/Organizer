@@ -4,8 +4,11 @@
     <string name="app_name">Organizer</string>
     <string name="module1_name">Reminder</string>
     <string name="module2_name">Focus</string>
-    <string name="module3_name">Timer</string>
-    <string name="module4_name">Notable</string>
+    <string name="module3_name">Notable</string>
+    <string name="module4_name">Timer</string>
+    <string name="module5_name">Checker</string>
+    <string name="app_settings">Settings</string>
+    <string name="app_usage">Help</string>
     <!-- TODO give these real values-->
     <string name="nav_header_title">Organizer</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>

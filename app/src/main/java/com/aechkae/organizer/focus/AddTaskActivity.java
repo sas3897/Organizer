@@ -26,7 +26,7 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         actBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_task);
-        setSupportActionBar(findViewById(R.id.focus_toolbar));
+        setSupportActionBar(findViewById(R.id.toolbar));
         getSupportActionBar().setTitle(R.string.module2_name);
     }
 

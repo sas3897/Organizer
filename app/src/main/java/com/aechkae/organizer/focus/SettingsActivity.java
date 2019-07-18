@@ -11,7 +11,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_focus_settings);
-        setSupportActionBar(findViewById(R.id.focus_toolbar));
+        setSupportActionBar(findViewById(R.id.toolbar));
         getSupportActionBar().setTitle(R.string.module2_name);
     }
 }
